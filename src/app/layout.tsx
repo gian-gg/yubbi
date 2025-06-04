@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/globals.css";
 
 export const metadata: Metadata = {
-  title: "yubi",
+  title: "yubi - finger roulette",
   description: "by gian.gg",
 };
 
@@ -13,7 +13,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body
+        data-theme="forest"
+        className="w-screen h-screen antialiased bg-base-100"
+      >
+        {children}
+      </body>
     </html>
   );
 }

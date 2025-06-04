@@ -1,7 +1,12 @@
 import React from "react";
+import Roulette from "@/components/Roulette";
 
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <div>
+      <Roulette />
+    </div>
+  );
 };
 
 export default Home;
