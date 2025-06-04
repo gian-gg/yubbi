@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { NavBar, NavDivider, RadioButton } from "@components/Navigation";
 
 const ignoredKeys = [
   " ", // space
@@ -27,6 +28,8 @@ const ignoredKeys = [
 ];
 
 const Roulette = () => {
+  const [mode, setMode] = useState("keys-mode");
+
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [isRandomizing, setIsRandomizing] = useState(false);
@@ -112,12 +115,27 @@ const Roulette = () => {
   }, [handleKeyDown, handleKeyUp, isRandomizing, selectedKey]);
 
   return (
-    <>
-      <nav className="flex gap-4 items-center">
-        <button className="btn" onClick={reset} disabled={isRandomizing}>
-          <kbd className="kbd kbd-md">esc</kbd> Reset
+    <main className="h-[600px] w-full flex flex-col items-center">
+      <NavBar>
+        <div className="flex gap-4">
+          <RadioButton text="Keys" setMode={setMode} mode={mode} />
+          <RadioButton text="Touch" setMode={setMode} mode={mode} />
+        </div>
+
+        <NavDivider />
+
+        <button
+          className={` ${
+            isRandomizing
+              ? "text-base-content/25 cursor-not-allowed"
+              : "hover:text-base-content active:text-base-content/75 cursor-pointer"
+          }`}
+          onClick={reset}
+          disabled={isRandomizing}
+        >
+          <kbd className="kbd kbd-sm">esc</kbd> Reset
         </button>
-      </nav>
+      </NavBar>
 
       <div className="bg-base-200 min-h-60 w-full p-8 my-8 rounded-lg flex items-center justify-center gap-4">
         {pressedKeys.map((key, index) => (
@@ -140,7 +158,7 @@ const Roulette = () => {
       <p>
         Press <kbd className="kbd kbd-md">Enter</kbd> to start.
       </p>
-    </>
+    </main>
   );
 };
 

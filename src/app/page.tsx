@@ -1,21 +1,10 @@
-import React from "react";
-
-import Header from "@components/Header";
-import Footer from "@components/Footer";
-import Roulette from "@components/Roulette";
+import { redirect } from "next/navigation";
+import Loading from "./loading";
 
 const Home = () => {
-  return (
-    <>
-      <Header />
+  redirect("/roulette");
 
-      <main className="h-[600px] w-full flex flex-col items-center">
-        <Roulette />
-      </main>
-
-      <Footer />
-    </>
-  );
+  return <Loading />;
 };
 
 export default Home;
