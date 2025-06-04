@@ -3,6 +3,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { NavBar, NavDivider, RadioButton } from "@components/Navigation";
 
+import { toast } from "sonner";
+
 const ignoredKeys = [
   " ", // space
   "Shift",
@@ -44,13 +46,16 @@ const Roulette = () => {
 
   const startRandomizer = useCallback(() => {
     if (pressedKeys.length === 0) {
-      console.log("No keys to randomize.");
+      toast.warning("No Fingers Detected", {
+        unstyled: true,
+        className: "alert alert-warning alert-soft w-80 h-14",
+      });
+
       return;
     }
 
     setSelectedKey(null);
 
-    console.log("Randomizer started");
     setIsRandomizing(true);
 
     let index = 0;

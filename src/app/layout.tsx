@@ -4,6 +4,8 @@ import "@/globals.css";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
 
+import { Toaster } from "sonner";
+
 export const metadata: Metadata = {
   title: "yubi - finger roulette",
   description: "by gian.gg",
@@ -23,6 +25,16 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+
+        <Toaster
+          icons={{
+            success: "🎉",
+            info: "ℹ️",
+            warning: "⚠️",
+            error: "🚨",
+            loading: "⏱️",
+          }}
+        />
       </body>
     </html>
   );
