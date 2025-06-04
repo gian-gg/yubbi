@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 
 const ignoredKeys = [
+  " ", // space
   "Shift",
   "Control",
   "Alt",
@@ -111,36 +112,35 @@ const Roulette = () => {
   }, [handleKeyDown, handleKeyUp, isRandomizing, selectedKey]);
 
   return (
-    <div className="p-4 space-y-4">
+    <>
       <nav className="flex gap-4 items-center">
         <button className="btn" onClick={reset} disabled={isRandomizing}>
-          <span>⎋</span> Reset
+          <kbd className="kbd kbd-md">esc</kbd> Reset
         </button>
-        <p>
-          Press <kbd className="kbd kbd-md">Enter</kbd> to start.
-        </p>
       </nav>
 
-      <div className="bg-base-300 flex flex-wrap gap-4 p-4 rounded-lg">
+      <div className="bg-base-200 min-h-60 w-full p-8 my-8 rounded-lg flex items-center justify-center gap-4">
         {pressedKeys.map((key, index) => (
           <kbd
-            id={key}
             key={index}
-            className={`kbd kbd-lg w-auto h-auto text-[80px] transition-transform duration-200
+            className={`kbd kbd-lg w-40 h-40 text-[80px] transition-transform duration-200 bg-base-300 
             ${
               key === selectedKey
                 ? isRandomizing
                   ? "bg-secondary scale-110"
-                  : "bg-primary animate-pulse scale-125"
+                  : "bg-primary animate-pulse scale-125 mx-10"
                 : ""
             }
             `}
           >
-            {key === " " ? "Space" : key}
+            {key}
           </kbd>
         ))}
       </div>
-    </div>
+      <p>
+        Press <kbd className="kbd kbd-md">Enter</kbd> to start.
+      </p>
+    </>
   );
 };
 

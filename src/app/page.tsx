@@ -1,11 +1,20 @@
 import React from "react";
-import Roulette from "@/components/Roulette";
+
+import Header from "@components/Header";
+import Footer from "@components/Footer";
+import Roulette from "@components/Roulette";
 
 const Home = () => {
   return (
-    <div>
-      <Roulette />
-    </div>
+    <>
+      <Header />
+
+      <main className="h-[600px] w-full flex flex-col items-center">
+        <Roulette />
+      </main>
+
+      <Footer />
+    </>
   );
 };
 

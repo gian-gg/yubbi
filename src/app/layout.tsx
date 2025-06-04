@@ -15,7 +15,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         data-theme="forest"
-        className="w-screen h-screen antialiased bg-base-100"
+        className="w-screen h-screen antialiased bg-base-100 text-base-content font-jetbrains flex flex-col justify-between items-center p-8"
       >
         {children}
       </body>
