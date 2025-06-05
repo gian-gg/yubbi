@@ -1,24 +1,33 @@
 "use client";
-
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 import { NavBar, NavDivider } from "@components/Navigation";
 import { ResetButton, ModeButtons } from "@components/Buttons";
 import KeyHighlighter from "@components/KeyHighlighter";
-import { NoFingersDetected } from "@components/Toasts";
+
+import { NoFingersDetected } from "@utils/Toasts";
+import rouletteAnimation from "@utils/RouletteAnimation";
 
 const Roulette = () => {
   const [mode, setMode] = useState("keys-mode"); // keys-mode or touch-mode
+  const [animationDone, setAnimationDone] = useState(false);
 
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);
   const [currentKey, setCurrentKey] = useState<string | null>(null);
   const [hasStarted, setHasStarted] = useState(false);
+
+  useEffect(() => {
+    if (animationDone) {
+      setHasStarted(false);
+    }
+  }, [animationDone]);
 
   const reset = () => {
     if (!hasStarted) {
       setPressedKeys([]);
       setCurrentKey(null);
       setHasStarted(false);
+      setAnimationDone(false);
     }
   };
 
@@ -30,25 +39,9 @@ const Roulette = () => {
     }
 
     setCurrentKey(null);
-
     setHasStarted(true);
 
-    let index = 0;
-    const totalSpins = Math.floor(Math.random() * 20) + 15;
-    const interval = 100;
-    let spins = 0;
-
-    const intervalId = setInterval(() => {
-      setCurrentKey(pressedKeys[index % pressedKeys.length]);
-
-      index++;
-      spins++;
-
-      if (spins >= totalSpins) {
-        clearInterval(intervalId);
-        setHasStarted(false);
-      }
-    }, interval);
+    rouletteAnimation(setCurrentKey, pressedKeys, setAnimationDone);
   }, [pressedKeys]);
 
   return (

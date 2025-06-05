@@ -1,11 +1,12 @@
 "use client";
-
 import React, { useState, useCallback, useEffect } from "react";
 
 import { NavBar, NavDivider, NavButton } from "@components/Navigation";
 import { ResetButton, ModeButtons } from "@components/Buttons";
 import KeyHighlighter from "@components/KeyHighlighter";
-import { NoFingersDetected, yubiToast } from "@components/Toasts";
+
+import { NoFingersDetected, yubiToast } from "@utils/Toasts";
+import rouletteAnimation from "@utils/RouletteAnimation";
 
 const groupColors = [
   "border-4 border-[#A3CEF1]", // pastel blue
@@ -22,6 +23,7 @@ const groupColors = [
 
 const Group = () => {
   const [mode, setMode] = useState("keys-mode"); // keys-mode or touch-mode
+  const [animationDone, setAnimationDone] = useState(false);
 
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);
   const [currentKey, setCurrentKey] = useState<string | null>(null);
@@ -31,10 +33,11 @@ const Group = () => {
   const [groups, setGroups] = useState<string[][]>([]);
 
   useEffect(() => {
-    if (groups.length > 0) {
-      console.log("Groups:", groups);
+    if (animationDone) {
+      generateGroups();
+      setHasStarted(false);
     }
-  }, [groups]);
+  }, [animationDone]);
 
   const reset = () => {
     if (!hasStarted) {
@@ -43,6 +46,7 @@ const Group = () => {
       setHasStarted(false);
       setNumberOfGroups(2);
       setGroups([]);
+      setAnimationDone(false);
     }
   };
 
@@ -76,24 +80,7 @@ const Group = () => {
     setCurrentKey(null);
     setHasStarted(true);
 
-    let index = 0;
-    const totalSpins = Math.floor(Math.random() * 20) + 15;
-    const interval = 100;
-    let spins = 0;
-
-    const intervalId = setInterval(() => {
-      setCurrentKey(pressedKeys[index % pressedKeys.length]);
-
-      index++;
-      spins++;
-
-      if (spins >= totalSpins) {
-        clearInterval(intervalId);
-
-        generateGroups();
-        setHasStarted(false);
-      }
-    }, interval);
+    rouletteAnimation(setCurrentKey, pressedKeys, setAnimationDone);
   }, [pressedKeys, numberOfGroups]);
 
   const highlightGroup = (key: string) => {
