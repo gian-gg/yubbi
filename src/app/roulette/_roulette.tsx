@@ -11,13 +11,13 @@ const Roulette = () => {
   const [mode, setMode] = useState("keys-mode"); // keys-mode or touch-mode
 
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const [currentKey, setCurrentKey] = useState<string | null>(null);
   const [hasStarted, setHasStarted] = useState(false);
 
   const reset = () => {
     if (!hasStarted) {
       setPressedKeys([]);
-      setSelectedKey(null);
+      setCurrentKey(null);
       setHasStarted(false);
     }
   };
@@ -29,7 +29,7 @@ const Roulette = () => {
       return;
     }
 
-    setSelectedKey(null);
+    setCurrentKey(null);
 
     setHasStarted(true);
 
@@ -39,7 +39,7 @@ const Roulette = () => {
     let spins = 0;
 
     const intervalId = setInterval(() => {
-      setSelectedKey(pressedKeys[index % pressedKeys.length]);
+      setCurrentKey(pressedKeys[index % pressedKeys.length]);
 
       index++;
       spins++;
@@ -62,15 +62,31 @@ const Roulette = () => {
       </NavBar>
 
       <KeyHighlighter
-        pressedKeys={pressedKeys}
         setPressedKeys={setPressedKeys}
-        selectedKey={selectedKey}
-        setSelectedKey={setSelectedKey}
+        currentKey={currentKey}
         hasStarted={hasStarted}
-        setHasStarted={setHasStarted}
         start={() => start()}
         reset={() => reset()}
-      />
+      >
+        <div className="bg-base-200 min-h-60 w-full p-8 my-8 rounded-lg flex items-center justify-center gap-4">
+          {pressedKeys.map((key, index) => (
+            <kbd
+              key={index}
+              className={`kbd kbd-lg w-40 h-40 text-[80px] transition-transform duration-200 bg-base-300 
+            ${
+              key === currentKey
+                ? hasStarted
+                  ? "bg-secondary scale-110"
+                  : "bg-primary animate-pulse scale-125 mx-10"
+                : ""
+            }
+            `}
+            >
+              {key}
+            </kbd>
+          ))}
+        </div>
+      </KeyHighlighter>
     </main>
   );
 };

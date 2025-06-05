@@ -1,37 +1,111 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 
-import { NavBar, NavDivider } from "@components/Navigation";
+import { NavBar, NavDivider, NavButton } from "@components/Navigation";
 import { ResetButton, ModeButtons } from "@components/Buttons";
 import KeyHighlighter from "@components/KeyHighlighter";
-import { NoFingersDetected } from "@components/Toasts";
+import { NoFingersDetected, yubiToast } from "@components/Toasts";
+
+const groupColors = [
+  "border-4 border-[#A3CEF1]", // pastel blue
+  "border-4 border-[#F9F871]", // pastel yellow
+  "border-4 border-[#F6D6AD]", // pastel orange
+  "border-4 border-[#F7A072]", // pastel coral
+  "border-4 border-[#B6E2D3]", // pastel teal
+  "border-4 border-[#E4C1F9]", // pastel purple
+  "border-4 border-[#B5ead7]", // pastel mint
+  "border-4 border-[#FFDAC1]", // pastel peach
+  "border-4 border-[#C7CEEA]", // pastel lavender
+  "border-4 border-[#FFB7B2]", // pastel pink
+];
 
 const Group = () => {
   const [mode, setMode] = useState("keys-mode"); // keys-mode or touch-mode
 
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const [currentKey, setCurrentKey] = useState<string | null>(null);
   const [hasStarted, setHasStarted] = useState(false);
+
+  const [numberOfGroups, setNumberOfGroups] = useState(2);
+  const [groups, setGroups] = useState<string[][]>([]);
+
+  useEffect(() => {
+    if (groups.length > 0) {
+      console.log("Groups:", groups);
+    }
+  }, [groups]);
 
   const reset = () => {
     if (!hasStarted) {
       setPressedKeys([]);
-      setSelectedKey(null);
+      setCurrentKey(null);
       setHasStarted(false);
+      setNumberOfGroups(2);
+      setGroups([]);
     }
+  };
+
+  const generateGroups = () => {
+    const shuffledKeys = [...pressedKeys].sort(() => Math.random() - 0.5);
+
+    const newGroups: string[][] = Array.from(
+      { length: numberOfGroups },
+      () => []
+    );
+
+    shuffledKeys.forEach((key, index) => {
+      const groupIndex = index % numberOfGroups;
+      newGroups[groupIndex].push(key);
+    });
+
+    setGroups(newGroups);
   };
 
   const start = useCallback(() => {
     if (pressedKeys.length === 0) {
       NoFingersDetected();
-
       return;
     }
 
-    setSelectedKey(null);
+    if (pressedKeys.length < numberOfGroups) {
+      yubiToast("Too many groups for the number of keys.", "error");
+      return;
+    }
+
+    setCurrentKey(null);
     setHasStarted(true);
-  }, [pressedKeys]);
+
+    let index = 0;
+    const totalSpins = Math.floor(Math.random() * 20) + 15;
+    const interval = 100;
+    let spins = 0;
+
+    const intervalId = setInterval(() => {
+      setCurrentKey(pressedKeys[index % pressedKeys.length]);
+
+      index++;
+      spins++;
+
+      if (spins >= totalSpins) {
+        clearInterval(intervalId);
+
+        generateGroups();
+        setHasStarted(false);
+      }
+    }, interval);
+  }, [pressedKeys, numberOfGroups]);
+
+  const highlightGroup = (key: string) => {
+    if (!groups.length) return "";
+
+    for (let i = 0; i < groups.length; i++) {
+      if (groups[i].includes(key)) {
+        return groupColors[i] || "border-4 border-base-300"; // fallback for more than 10 groups
+      }
+    }
+    return "";
+  };
 
   return (
     <main className="h-[600px] w-full flex flex-col items-center">
@@ -40,19 +114,63 @@ const Group = () => {
 
         <NavDivider />
 
+        <p>Groups: </p>
+        <NavButton
+          text="+"
+          handleClick={() =>
+            setNumberOfGroups((prev) => {
+              if (prev < 10) {
+                return prev + 1;
+              }
+              return prev;
+            })
+          }
+        />
+        <p>{numberOfGroups}</p>
+        <NavButton
+          text="-"
+          handleClick={() =>
+            setNumberOfGroups((prev) => {
+              if (prev > 2) {
+                return prev - 1;
+              }
+
+              return prev;
+            })
+          }
+        />
+
+        <NavDivider />
+
         <ResetButton reset={reset} hasStarted={hasStarted} />
       </NavBar>
 
       <KeyHighlighter
-        pressedKeys={pressedKeys}
         setPressedKeys={setPressedKeys}
-        selectedKey={selectedKey}
-        setSelectedKey={setSelectedKey}
+        currentKey={currentKey}
         hasStarted={hasStarted}
-        setHasStarted={setHasStarted}
         start={() => start()}
         reset={() => reset()}
-      />
+      >
+        <div className="bg-base-200 min-h-60 w-full p-8 my-8 rounded-lg flex items-center justify-center gap-4">
+          {pressedKeys.map((key, index) => (
+            <kbd
+              key={index}
+              className={`kbd kbd-lg w-40 h-40 text-[80px] transition-transform duration-200 bg-base-300 
+            ${
+              key === currentKey
+                ? hasStarted
+                  ? "bg-secondary scale-110"
+                  : `${highlightGroup(key)}`
+                : `${highlightGroup(key)}`
+            }
+            `}
+            >
+              {key}
+            </kbd>
+          ))}
+        </div>
+      </KeyHighlighter>
     </main>
   );
 };

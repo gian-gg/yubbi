@@ -1,10 +1,34 @@
 import { toast } from "sonner";
 
-const NoFingersDetected = () => {
-  toast.warning("No Fingers Detected", {
+const toastConfig = (mode: string) => {
+  return {
     unstyled: true,
-    className: "alert alert-warning alert-soft w-80 h-14",
-  });
+    className: `alert ${mode} alert-dash min-w-80 min-h-14`,
+  };
 };
 
-export { NoFingersDetected };
+const yubiToast = (text: string, mode: string) => {
+  switch (mode) {
+    case "default":
+      toast(text, toastConfig(""));
+      break;
+    case "success":
+      toast.success(text, toastConfig("alert-success"));
+      break;
+    case "error":
+      toast.error(text, toastConfig("alert-error"));
+      break;
+    case "warning":
+      toast.warning(text, toastConfig("alert-warning"));
+      break;
+    case "info":
+      toast.info(text, toastConfig("alert-info"));
+      break;
+  }
+};
+
+const NoFingersDetected = () => {
+  yubiToast("No Fingers Detected", "warning");
+};
+
+export { NoFingersDetected, yubiToast };

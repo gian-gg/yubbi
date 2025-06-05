@@ -27,6 +27,7 @@ export default function RootLayout({
         <Footer />
 
         <Toaster
+          visibleToasts={1}
           icons={{
             success: "🎉",
             info: "ℹ️",
@@ -34,6 +35,8 @@ export default function RootLayout({
             error: "🚨",
             loading: "⏱️",
           }}
+          offset={{ bottom: "75px" }}
+          mobileOffset={{ bottom: "75px" }}
         />
       </body>
     </html>

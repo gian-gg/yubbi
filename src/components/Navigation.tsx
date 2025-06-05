@@ -8,10 +8,31 @@ const NavDivider = () => {
 
 interface NavButtonProps {
   text: string;
+  handleClick: () => void;
+}
+
+const NavButton = ({ text, handleClick }: NavButtonProps) => {
+  return (
+    <button
+      className="hover:text-base-content active:text-base-content/75 transition-colors duration-200 cursor-pointer"
+      onClick={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+        }
+      }}
+    >
+      {text}
+    </button>
+  );
+};
+
+interface NavLinkProps {
+  text: string;
   route: string;
 }
 
-const NavButton = ({ text, route }: NavButtonProps) => {
+const NavLink = ({ text, route }: NavLinkProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -39,8 +60,8 @@ interface NavBarProps {
 const NavBar = ({ children }: NavBarProps) => {
   return (
     <div className="flex gap-8 bg-base-200 p-2 px-6 rounded-lg text-base-content/75">
-      <NavButton text="🎲 Roulette" route="/roulette" />
-      <NavButton text="👥 Group" route="/group" />
+      <NavLink text="🎲 Roulette" route="/roulette" />
+      <NavLink text="👥 Group" route="/group" />
       {children && (
         <>
           <NavDivider />
@@ -72,4 +93,4 @@ const RadioButton = ({ text, setMode, mode }: RadioButtonProps) => {
   );
 };
 
-export { NavBar, NavButton, RadioButton, NavDivider };
+export { NavBar, NavLink, RadioButton, NavDivider, NavButton };
