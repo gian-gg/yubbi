@@ -85,6 +85,9 @@ const Roulette = () => {
           ))}
         </div>
       </KeyHighlighter>
+      <ul className="flex gap-8 bg-base-200 p-2 px-6 rounded-lg text-sm text-base-100">
+        <li className="text-base-content">Fingers: {pressedKeys.length}</li>
+      </ul>
     </main>
   );
 };
