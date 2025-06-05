@@ -2,7 +2,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 
 import { NavBar, NavDivider, NavButton } from "@components/Navigation";
-import { ResetButton, ModeButtons } from "@components/Buttons";
+import { SwitchButton, ModeButtons } from "@components/Buttons";
 import KeyHighlighter from "@components/KeyHighlighter";
 
 import { NoFingersDetected, yubiToast } from "@utils/Toasts";
@@ -129,7 +129,12 @@ const Group = () => {
 
         <NavDivider />
 
-        <ResetButton reset={reset} hasStarted={hasStarted} />
+        <SwitchButton
+          start={start}
+          reset={reset}
+          disable={hasStarted}
+          animationDone={animationDone}
+        />
       </NavBar>
 
       <KeyHighlighter

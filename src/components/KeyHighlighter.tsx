@@ -84,14 +84,7 @@ const KeyHighlighter = ({
       window.removeEventListener("keyup", handleKeyUp);
     };
   }, [handleKeyDown, handleKeyUp, hasStarted, currentKey]);
-  return (
-    <>
-      {children}
-      <p>
-        Press <kbd className="kbd kbd-md">Enter</kbd> to start.
-      </p>
-    </>
-  );
+  return <>{children}</>;
 };
 
 export default KeyHighlighter;

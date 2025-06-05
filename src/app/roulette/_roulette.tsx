@@ -2,7 +2,7 @@
 import { useState, useCallback, useEffect } from "react";
 
 import { NavBar, NavDivider } from "@components/Navigation";
-import { ResetButton, ModeButtons } from "@components/Buttons";
+import { SwitchButton, ModeButtons } from "@components/Buttons";
 import KeyHighlighter from "@components/KeyHighlighter";
 
 import { NoFingersDetected } from "@utils/Toasts";
@@ -51,7 +51,12 @@ const Roulette = () => {
 
         <NavDivider />
 
-        <ResetButton reset={reset} hasStarted={hasStarted} />
+        <SwitchButton
+          start={start}
+          reset={reset}
+          disable={hasStarted}
+          animationDone={animationDone}
+        />
       </NavBar>
 
       <KeyHighlighter
