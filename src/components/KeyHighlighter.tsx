@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 
 const ignoredKeys = [
   " ", // space
@@ -42,37 +42,43 @@ const KeyHighlighter = ({
   reset,
   children,
 }: KeyHighlighterProps) => {
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "Enter" && !currentKey) {
-      start();
-      return;
-    }
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Enter" && !currentKey) {
+        start();
+        return;
+      }
 
-    if (e.key === "Escape") {
-      reset();
-      return;
-    }
+      if (e.key === "Escape") {
+        reset();
+        return;
+      }
 
-    if (currentKey) return;
+      if (currentKey) return;
 
-    if (
-      ignoredKeys.includes(e.key) ||
-      /^F\d{1,2}$/.test(e.key) // Matches F1 to F12
-    ) {
-      return;
-    }
+      if (
+        ignoredKeys.includes(e.key) ||
+        /^F\d{1,2}$/.test(e.key) // Matches F1 to F12
+      ) {
+        return;
+      }
 
-    setPressedKeys((prev) => {
-      if (!prev.includes(e.key)) return [...prev, e.key];
-      return prev;
-    });
-  };
+      setPressedKeys((prev) => {
+        if (!prev.includes(e.key)) return [...prev, e.key];
+        return prev;
+      });
+    },
+    [currentKey, setPressedKeys, start, reset]
+  );
 
-  const handleKeyUp = (e: KeyboardEvent) => {
-    if (!currentKey) {
-      setPressedKeys((prev) => prev.filter((key) => key !== e.key));
-    }
-  };
+  const handleKeyUp = useCallback(
+    (e: KeyboardEvent) => {
+      if (!currentKey) {
+        setPressedKeys((prev) => prev.filter((key) => key !== e.key));
+      }
+    },
+    [currentKey, setPressedKeys]
+  );
 
   useEffect(() => {
     if (hasStarted) return;

@@ -49,7 +49,7 @@ const NavLink = ({ icon, text, route }: NavLinkProps) => {
       onClick={() => router.push(route)}
       disabled={isRouteActive(route)}
     >
-      {icon && <span className="hidden md:inline-grid mr-2">{icon}</span>}
+      {icon && <span className="hidden lg:inline-grid mr-2">{icon}</span>}
       {text}
     </button>
   );
@@ -76,7 +76,7 @@ interface NavBarProps {
 
 const NavBar = ({ children }: NavBarProps) => {
   return (
-    <Container className="flex gap-6 md:gap-8">
+    <Container className="flex gap-6 md:gap-8 justify-center items-center">
       <NavLink icon="🎲" text="Roulette" route="/roulette" />
       <NavLink icon="👥" text="Group" route="/group" />
       {children && (

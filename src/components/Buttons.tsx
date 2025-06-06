@@ -26,7 +26,7 @@ const SwitchButton = ({
       onClick={() => (state === "start" ? start() : reset())}
       disabled={disable}
     >
-      <kbd className="kbd kbd-sm hidden md:inline-grid">
+      <kbd className="kbd kbd-sm hidden lg:inline-grid">
         {state === "start" ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"

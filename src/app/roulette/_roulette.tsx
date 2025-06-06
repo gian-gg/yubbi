@@ -9,11 +9,11 @@ import { NoFingersDetected } from "@utils/Toasts";
 import rouletteAnimation from "@utils/RouletteAnimation";
 import { launchConfetti } from "@utils/Confetti";
 
-import { changeModeUsingScreenWidth } from "@utils/Misc";
+import { useChangeModeUsingScreenWidth } from "@utils/Misc";
 
 const Roulette = () => {
   const [mode, setMode] = useState("touch-mode"); // keys-mode or touch-mode
-  changeModeUsingScreenWidth(setMode);
+  useChangeModeUsingScreenWidth(setMode);
 
   const [animationDone, setAnimationDone] = useState(false);
 
@@ -54,7 +54,7 @@ const Roulette = () => {
   return (
     <main className="h-full w-full flex flex-col items-center mb-2">
       <NavBar>
-        <div className=" hidden md:flex items-center gap-6">
+        <div className="h-full hidden md:flex items-center gap-6">
           <ModeButtons mode={mode} setMode={setMode} />
 
           <NavDivider />

@@ -5,15 +5,13 @@ function capitalizeFirstLetter(word: string): string {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
-function changeModeUsingScreenWidth(setMode: (mode: string) => void): void {
+function useChangeModeUsingScreenWidth(setMode: (mode: string) => void): void {
   useEffect(() => {
     const updateMode = () => {
       const width = window.innerWidth;
       if (width <= 768) {
-        console.log("touch-mode");
         setMode("touch-mode");
       } else {
-        console.log("keys-mode");
         setMode("keys-mode");
       }
     };
@@ -25,4 +23,4 @@ function changeModeUsingScreenWidth(setMode: (mode: string) => void): void {
   }, [setMode]);
 }
 
-export { capitalizeFirstLetter, changeModeUsingScreenWidth };
+export { capitalizeFirstLetter, useChangeModeUsingScreenWidth };

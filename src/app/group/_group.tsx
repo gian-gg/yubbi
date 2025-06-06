@@ -14,13 +14,13 @@ import { NoFingersDetected, yubiToast } from "@utils/Toasts";
 import rouletteAnimation from "@utils/RouletteAnimation";
 import { launchConfetti } from "@utils/Confetti";
 
-import { changeModeUsingScreenWidth } from "@utils/Misc";
+import { useChangeModeUsingScreenWidth } from "@utils/Misc";
 
 import { groupColors, groupConfig } from "@/data";
 
 const Group = () => {
   const [mode, setMode] = useState("touch-mode"); // keys-mode or touch-mode
-  changeModeUsingScreenWidth(setMode);
+  useChangeModeUsingScreenWidth(setMode);
 
   const [animationDone, setAnimationDone] = useState(false);
 
@@ -31,27 +31,7 @@ const Group = () => {
   const [numberOfGroups, setNumberOfGroups] = useState(groupConfig.MIN);
   const [groups, setGroups] = useState<string[][]>([]);
 
-  useEffect(() => {
-    if (animationDone) {
-      generateGroups();
-      setHasStarted(false);
-
-      launchConfetti();
-    }
-  }, [animationDone]);
-
-  const reset = () => {
-    if (!hasStarted) {
-      setPressedKeys([]);
-      setCurrentKey(null);
-      setHasStarted(false);
-      setNumberOfGroups(groupConfig.MIN);
-      setGroups([]);
-      setAnimationDone(false);
-    }
-  };
-
-  const generateGroups = () => {
+  const generateGroups = useCallback(() => {
     const shuffledKeys = [...pressedKeys].sort(() => Math.random() - 0.5);
 
     const newGroups: string[][] = Array.from(
@@ -65,6 +45,26 @@ const Group = () => {
     });
 
     setGroups(newGroups);
+  }, [pressedKeys, numberOfGroups]);
+
+  useEffect(() => {
+    if (animationDone) {
+      generateGroups();
+      setHasStarted(false);
+
+      launchConfetti();
+    }
+  }, [animationDone, generateGroups]);
+
+  const reset = () => {
+    if (!hasStarted) {
+      setPressedKeys([]);
+      setCurrentKey(null);
+      setHasStarted(false);
+      setNumberOfGroups(groupConfig.MIN);
+      setGroups([]);
+      setAnimationDone(false);
+    }
   };
 
   const start = useCallback(() => {
@@ -102,7 +102,7 @@ const Group = () => {
   return (
     <main className="h-full w-full flex flex-col items-center mb-2">
       <NavBar>
-        <div className=" hidden md:flex items-center gap-6">
+        <div className="h-full hidden md:flex items-center gap-6">
           <ModeButtons mode={mode} setMode={setMode} />
 
           <NavDivider />
