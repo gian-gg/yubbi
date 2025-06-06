@@ -28,7 +28,7 @@ const yubiToast = (text: string, mode: string) => {
 };
 
 const NoFingersDetected = () => {
-  yubiToast("Minimum of two fingers required to start.", "warning");
+  yubiToast("Minimum of two fingers required to start.", "error");
 };
 
 export { NoFingersDetected, yubiToast };

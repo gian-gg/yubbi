@@ -28,11 +28,12 @@ const NavButton = ({ text, handleClick }: NavButtonProps) => {
 };
 
 interface NavLinkProps {
+  icon?: string;
   text: string;
   route: string;
 }
 
-const NavLink = ({ text, route }: NavLinkProps) => {
+const NavLink = ({ icon, text, route }: NavLinkProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -48,6 +49,7 @@ const NavLink = ({ text, route }: NavLinkProps) => {
       onClick={() => router.push(route)}
       disabled={isRouteActive(route)}
     >
+      {icon && <span className="hidden md:inline-grid mr-2">{icon}</span>}
       {text}
     </button>
   );
@@ -61,7 +63,7 @@ interface ContainerProps {
 const Container = ({ className, children }: ContainerProps) => {
   return (
     <div
-      className={`bg-base-200/60 p-2 px-6 rounded-lg text-base-content/75  bg-clip-padding backdrop-filter backdrop-blur-sm border-1 border-base-200  ${className}`}
+      className={`text-xs md:text-sm lg:text-md bg-base-200/60 p-2 px-4 md:px-6 rounded-lg text-base-content/75  bg-clip-padding backdrop-filter backdrop-blur-sm border-1 border-base-200  ${className}`}
     >
       {children}
     </div>
@@ -74,9 +76,9 @@ interface NavBarProps {
 
 const NavBar = ({ children }: NavBarProps) => {
   return (
-    <Container className="flex gap-8">
-      <NavLink text="🎲 Roulette" route="/roulette" />
-      <NavLink text="👥 Group" route="/group" />
+    <Container className="flex gap-6 md:gap-8">
+      <NavLink icon="🎲" text="Roulette" route="/roulette" />
+      <NavLink icon="👥" text="Group" route="/group" />
       {children && (
         <>
           <NavDivider />

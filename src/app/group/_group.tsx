@@ -14,10 +14,14 @@ import { NoFingersDetected, yubiToast } from "@utils/Toasts";
 import rouletteAnimation from "@utils/RouletteAnimation";
 import { launchConfetti } from "@utils/Confetti";
 
+import { changeModeUsingScreenWidth } from "@utils/Misc";
+
 import { groupColors, groupConfig } from "@/data";
 
 const Group = () => {
-  const [mode, setMode] = useState("keys-mode"); // keys-mode or touch-mode
+  const [mode, setMode] = useState("touch-mode"); // keys-mode or touch-mode
+  changeModeUsingScreenWidth(setMode);
+
   const [animationDone, setAnimationDone] = useState(false);
 
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);
@@ -96,13 +100,15 @@ const Group = () => {
   };
 
   return (
-    <main className="h-[600px] w-full flex flex-col items-center">
+    <main className="h-full w-full flex flex-col items-center mb-2">
       <NavBar>
-        <ModeButtons mode={mode} setMode={setMode} />
+        <div className=" hidden md:flex items-center gap-6">
+          <ModeButtons mode={mode} setMode={setMode} />
 
-        <NavDivider />
+          <NavDivider />
+        </div>
 
-        <p>Groups: </p>
+        <p className="hidden md:block">Groups: </p>
         <NavButton
           text="+"
           handleClick={() =>
@@ -146,7 +152,7 @@ const Group = () => {
         start={() => start()}
         reset={() => reset()}
       >
-        <Container className="min-h-60 w-full p-8 my-8 flex items-center justify-center gap-4">
+        <Container className="h-full lg:min-h-[240px] min-h-60 w-full p-8 my-2 lg:my-6 flex flex-wrap lg:items-center justify-center gap-2 lg:gap-4">
           {pressedKeys.map((key, index) => {
             const highlightStyle =
               key === currentKey && hasStarted ? {} : highlightGroup(key);
@@ -154,7 +160,7 @@ const Group = () => {
             return (
               <kbd
                 key={index}
-                className={`kbd kbd-lg w-40 h-40 text-[80px] transition-transform duration-200 bg-base-300 ${
+                className={`kbd kbd-lg w-20 h-20 lg:w-40 lg:h-40 text-[40px] lg:text-[80px] transition-transform duration-200 bg-base-300 ${
                   key === currentKey && hasStarted
                     ? "bg-secondary scale-110"
                     : ""
@@ -167,14 +173,14 @@ const Group = () => {
           })}
         </Container>
       </KeyHighlighter>
-      <Container className="flex gap-4">
-        <p className="text-base-content">Fingers: {pressedKeys.length}</p>
+      <Container className="flex gap-4 justify-center items-center">
+        <p>Fingers: {pressedKeys.length}</p>
         <NavDivider />
         <ul className="flex gap-2">
           {Array.from({ length: numberOfGroups }).map((_, i) => (
             <li
               key={i}
-              className="w-6 h-6 rounded flex justify-center items-center text-neutral"
+              className="w-4 h-4 md:w-5 md:h-5 text-[10px] md:text-[12px] rounded flex justify-center items-center text-neutral"
               style={{ backgroundColor: groupColors[i] }}
             >
               {i + 1}

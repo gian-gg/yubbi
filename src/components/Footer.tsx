@@ -23,7 +23,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="flex justify-between items-center w-full text-base-content/70 transition-colors duration-200 font-primary text-lg">
+    <footer className="mt-20 flex justify-between items-center w-full text-base-content/70 transition-colors duration-200 font-primary text-xs md:text-md lg:text-lg">
       <Link
         href="https://github.com/gian-gg"
         target="_blank"
@@ -44,7 +44,7 @@ const Footer = () => {
           {capitalizeFirstLetter(currentTheme)}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="ml-1 h-4 w-4 inline-block"
+            className="ml-1 h-3 w-3 md:h-4 md:w-4 inline-block"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -60,7 +60,7 @@ const Footer = () => {
         </div>
         <ul
           tabIndex={0}
-          className="dropdown-content bg-base-200/60 z-1 w-52 p-2 font-secondary rounded-lg text-md"
+          className="dropdown-content bg-[#363636] z-50 w-52 p-2 font-secondary rounded-lg text-md"
         >
           {themes.map((theme) => (
             <li key={theme.name}>
