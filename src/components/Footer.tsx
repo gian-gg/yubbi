@@ -1,15 +1,40 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-const themes = ["default", "retro", "cyberpunk", "valentine", "aqua"];
+import { capitalizeFirstLetter } from "@utils/Misc";
+
+const themes = [
+  { name: "mauve", emoji: "💜", color: "#d1ace0" },
+  { name: "lumen", emoji: "☀️", color: "#f0e07f" },
+  { name: "minty", emoji: "🌿", color: "#7ee3d0" },
+  { name: "blush", emoji: "🌸", color: "#ffc1c0" },
+  { name: "aether", emoji: "☁️", color: "#9cd3ff" },
+];
 
 const Footer = () => {
+  const [currentTheme, setCurrentTheme] = useState<string>("mauve");
+
+  useEffect(() => {
+    // Set the initial theme from localStorage or default to 'mauve'
+    const savedTheme = localStorage.getItem("theme") || "mauve";
+    document.body.setAttribute("data-theme", savedTheme);
+
+    setCurrentTheme(savedTheme);
+  }, []);
+
+  const handleThemeChange = (theme: string) => {
+    localStorage.setItem("theme", theme);
+    document.body.setAttribute("data-theme", theme);
+    setCurrentTheme(theme);
+  };
+
   return (
-    <footer className="flex justify-between items-center w-full text-base-content/70 transition-colors duration-200">
+    <footer className="flex justify-between items-center w-full text-base-content/70 transition-colors duration-200 font-primary text-sm">
       <Link
         href="https://github.com/gian-gg/yubi"
         target="_blank"
-        className="text-xs flex gap-2 items-center hover:text-base-content/100"
+        className="flex gap-2 items-center hover:text-base-content/100"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -27,22 +52,33 @@ const Footer = () => {
         <div
           tabIndex={0}
           role="button"
-          className="text-xs flex gap-2 items-center hover:text-base-content/100 m-1 cursor-pointer"
+          className="flex gap-2 items-center hover:text-base-content/100 m-1 cursor-pointer"
         >
-          <span className="text-lg">☀️</span> Theme
+          <span className="text-xs">
+            {themes.find((theme) => theme.name === currentTheme)?.emoji}
+          </span>
+          {capitalizeFirstLetter(currentTheme)}
         </div>
         <ul
           tabIndex={0}
-          className="dropdown-content bg-base-200 rounded-box z-1 w-52 p-2 shadow-2xl"
+          className="dropdown-content bg-base-200/60 z-1 w-52 p-2 font-secondary rounded-lg"
         >
           {themes.map((theme) => (
-            <li key={theme}>
+            <li key={theme.name}>
               <input
                 type="radio"
                 name="theme-dropdown"
-                className="theme-controller w-full btn btn-sm btn-ghost justify-start"
-                aria-label={theme.charAt(0).toUpperCase() + theme.slice(1)}
-                value={theme}
+                onChange={() => handleThemeChange(theme.name)}
+                checked={
+                  typeof window !== "undefined" &&
+                  document.body.getAttribute("data-theme") === theme.name
+                }
+                className="theme-controller w-full btn btn-sm btn-ghost justify-start hover:[background-color:var(--hover-color)] transition-colors duration-300"
+                style={{ "--hover-color": theme.color } as React.CSSProperties}
+                aria-label={`${theme.emoji} ${capitalizeFirstLetter(
+                  theme.name
+                )}`}
+                value={theme.name}
               />
             </li>
           ))}

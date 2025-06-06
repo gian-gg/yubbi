@@ -9,17 +9,20 @@ import { NoFingersDetected, yubiToast } from "@utils/Toasts";
 import rouletteAnimation from "@utils/RouletteAnimation";
 
 const groupColors = [
-  "#6EC1E4", // blue
-  "#F7B32B", // yellow-orange
-  "#E4572E", // red-orange
-  "#54B948", // green
-  "#9D5FE1", // purple
-  "#F76E9A", // pink
-  "#2D9CDB", // sky blue
-  "#FF8C42", // orange
-  "#43BCCD", // teal
-  "#FFD166", // gold
+  "#d1ace0", // mauve
+  "#f0e07f", // lumen
+  "#7ee3d0", // minty
+  "#ffc1c0", // blush
+  "#9cd3ff", // aether
+  "#3D6EFF", // strong blue
+  "#FF6B81", // coral pink
+  "#F2F0EE", // pastel white
+  "#FF8F2C", // vivid orange
+  "#00B27A", // teal green
 ];
+
+const MAX_NUMBER_OF_GROUPS = 10;
+const MIN_NUMBER_OG_GROUPS = 2;
 
 const Group = () => {
   const [mode, setMode] = useState("keys-mode"); // keys-mode or touch-mode
@@ -29,7 +32,7 @@ const Group = () => {
   const [currentKey, setCurrentKey] = useState<string | null>(null);
   const [hasStarted, setHasStarted] = useState(false);
 
-  const [numberOfGroups, setNumberOfGroups] = useState(2);
+  const [numberOfGroups, setNumberOfGroups] = useState(MIN_NUMBER_OG_GROUPS);
   const [groups, setGroups] = useState<string[][]>([]);
 
   useEffect(() => {
@@ -44,7 +47,7 @@ const Group = () => {
       setPressedKeys([]);
       setCurrentKey(null);
       setHasStarted(false);
-      setNumberOfGroups(2);
+      setNumberOfGroups(MIN_NUMBER_OG_GROUPS);
       setGroups([]);
       setAnimationDone(false);
     }
@@ -89,7 +92,7 @@ const Group = () => {
     for (let i = 0; i < groups.length; i++) {
       if (groups[i].includes(key)) {
         return {
-          color: "var(--color-base-100)",
+          color: "var(--color-neutral)",
           backgroundColor: groupColors[i],
         };
       }
@@ -109,7 +112,7 @@ const Group = () => {
           text="+"
           handleClick={() =>
             setNumberOfGroups((prev) => {
-              if (prev < 10) {
+              if (prev < MAX_NUMBER_OF_GROUPS) {
                 return prev + 1;
               }
               return prev;
@@ -121,7 +124,7 @@ const Group = () => {
           text="-"
           handleClick={() =>
             setNumberOfGroups((prev) => {
-              if (prev > 2) {
+              if (prev > MIN_NUMBER_OG_GROUPS) {
                 return prev - 1;
               }
 
@@ -147,7 +150,7 @@ const Group = () => {
         start={() => start()}
         reset={() => reset()}
       >
-        <div className="bg-base-200 min-h-60 w-full p-8 my-8 rounded-lg flex items-center justify-center gap-4">
+        <div className="bg-base-200/60 min-h-60 w-full p-8 my-8 rounded-lg flex items-center justify-center gap-4">
           {pressedKeys.map((key, index) => {
             const highlightStyle =
               key === currentKey && hasStarted ? {} : highlightGroup(key);
@@ -168,18 +171,21 @@ const Group = () => {
           })}
         </div>
       </KeyHighlighter>
-      <ul className="flex gap-8 bg-base-200 p-2 px-6 rounded-lg text-sm text-base-100">
+      <ul className="flex gap-4 bg-base-200/60 p-2 px-6 rounded-lg text-sm text-neutral">
         <li className="text-base-content">Fingers: {pressedKeys.length}</li>
 
-        {Array.from({ length: numberOfGroups }).map((_, i) => (
-          <li
-            key={i}
-            className="w-6 h-6 rounded flex justify-center items-center"
-            style={{ backgroundColor: groupColors[i] }}
-          >
-            {i + 1}
-          </li>
-        ))}
+        <NavDivider />
+        <ul className="flex gap-2">
+          {Array.from({ length: numberOfGroups }).map((_, i) => (
+            <li
+              key={i}
+              className="w-6 h-6 rounded flex justify-center items-center"
+              style={{ backgroundColor: groupColors[i] }}
+            >
+              {i + 1}
+            </li>
+          ))}
+        </ul>
       </ul>
     </main>
   );

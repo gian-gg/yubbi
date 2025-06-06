@@ -66,7 +66,7 @@ const Roulette = () => {
         start={() => start()}
         reset={() => reset()}
       >
-        <div className="bg-base-200 min-h-60 w-full p-8 my-8 rounded-lg flex items-center justify-center gap-4">
+        <div className="bg-base-200/60 min-h-60 w-full p-8 my-8 rounded-lg flex items-center justify-center gap-4">
           {pressedKeys.map((key, index) => (
             <kbd
               key={index}
@@ -85,7 +85,7 @@ const Roulette = () => {
           ))}
         </div>
       </KeyHighlighter>
-      <ul className="flex gap-8 bg-base-200 p-2 px-6 rounded-lg text-sm text-base-100">
+      <ul className="flex gap-8 bg-base-200/60 p-2 px-6 rounded-lg text-sm text-base-100">
         <li className="text-base-content">Fingers: {pressedKeys.length}</li>
       </ul>
     </main>

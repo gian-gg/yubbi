@@ -59,7 +59,7 @@ interface NavBarProps {
 
 const NavBar = ({ children }: NavBarProps) => {
   return (
-    <div className="flex gap-8 bg-base-200 p-2 px-6 rounded-lg text-base-content/75">
+    <div className="flex gap-8 bg-base-200/60 p-2 px-6 rounded-lg text-base-content/75">
       <NavLink text="🎲 Roulette" route="/roulette" />
       <NavLink text="👥 Group" route="/group" />
       {children && (

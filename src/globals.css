@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,100..900;1,100..900&display=swap");
 
 @import "tailwindcss";
 @plugin "daisyui" {
@@ -7,6 +7,77 @@
 }
 
 @theme {
-  --font-poppins: "Poppins", sans-serif;
-  --font-jetbrains: "JetBrains Mono", monospace;
+  --font-primary: "Gochi Hand", cursive;
+  --font-secondary: "Chivo Mono", monospace;
+}
+
+@plugin "daisyui/theme" {
+  name: "mauve";
+  default: true; /* set as default */
+  prefersdark: true; /* set as default dark mode (prefers-color-scheme:dark) */
+  color-scheme: dark; /* color of browser-provided UI */
+
+  --color-neutral: oklch(0.1867 0 0);
+  --color-base-100: oklch(0.7 0 0 / 20%);
+  --color-base-200: oklch(0.7 0 0 / 40%);
+  --color-base-300: oklch(0.7 0 0 / 60%);
+  --color-base-content: oklch(1 0 0);
+  --color-primary: oklch(0.7942 0.0825 316.1);
+  --color-primary-content: oklch(0.2 0 0);
+  --color-secondary: oklch(0.7942 0.0825 316.1 / 50%);
+  --color-secondary-content: oklch(98% 0.01 200);
+  --color-warning-content: oklch(0.8573 0.1751 90.95);
+  --color-error: oklch(0.6147 0.2398 30.95);
+
+  /* border radius */
+  --radius-selector: 1rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+
+  /* base sizes */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  /* border size */
+  --border: 1px;
+
+  /* effects */
+  --depth: 1;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "blush";
+  prefersdark: true; /* set as default dark mode (prefers-color-scheme:dark) */
+  color-scheme: dark; /* color of browser-provided UI */
+
+  --color-primary: oklch(0.88 0.15 20);
+  --color-secondary: oklch(0.88 0.15 20 / 50%);
+}
+
+@plugin "daisyui/theme" {
+  name: "minty";
+  prefersdark: true; /* set as default dark mode (prefers-color-scheme:dark) */
+  color-scheme: dark; /* color of browser-provided UI */
+
+  --color-primary: oklch(0.85 0.1 180);
+  --color-secondary: oklch(0.85 0.1 180 / 50%);
+}
+
+@plugin "daisyui/theme" {
+  name: "lumen";
+  prefersdark: true; /* set as default dark mode (prefers-color-scheme:dark) */
+  color-scheme: dark; /* color of browser-provided UI */
+
+  --color-primary: oklch(0.9 0.12 100);
+  --color-secondary: oklch(0.9 0.12 100 / 50%);
+}
+
+@plugin "daisyui/theme" {
+  name: "aether";
+  prefersdark: true; /* set as default dark mode (prefers-color-scheme:dark) */
+  color-scheme: dark; /* color of browser-provided UI */
+
+  --color-primary: oklch(0.85 0.13 250);
+  --color-secondary: oklch(0.85 0.13 250 / 50%);
 }
