@@ -29,7 +29,10 @@ export default function RootLayout({
         }}
       >
         <div className="bg-white w-32 h-32 rounded-full blur-[128px] absolute -top-20" />
-        <div className="bg-primary w-48 h-48 rounded-full blur-[200px] absolute -bottom-48" />
+        <div
+          className="bg-primary w-48 h-48 rounded-full blur-[200px] absolute -bottom-48 animate-pulse"
+          style={{ animationDuration: "4s" }}
+        />
         <Header />
         {children}
         <Footer />
