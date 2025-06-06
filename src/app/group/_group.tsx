@@ -7,22 +7,9 @@ import KeyHighlighter from "@components/KeyHighlighter";
 
 import { NoFingersDetected, yubiToast } from "@utils/Toasts";
 import rouletteAnimation from "@utils/RouletteAnimation";
+import { launchConfetti } from "@utils/Confetti";
 
-const groupColors = [
-  "#d1ace0", // mauve
-  "#f0e07f", // lumen
-  "#7ee3d0", // minty
-  "#ffc1c0", // blush
-  "#9cd3ff", // aether
-  "#3D6EFF", // strong blue
-  "#FF6B81", // coral pink
-  "#F2F0EE", // pastel white
-  "#FF8F2C", // vivid orange
-  "#00B27A", // teal green
-];
-
-const MAX_NUMBER_OF_GROUPS = 10;
-const MIN_NUMBER_OG_GROUPS = 2;
+import { groupColors, groupConfig } from "@/data";
 
 const Group = () => {
   const [mode, setMode] = useState("keys-mode"); // keys-mode or touch-mode
@@ -32,13 +19,15 @@ const Group = () => {
   const [currentKey, setCurrentKey] = useState<string | null>(null);
   const [hasStarted, setHasStarted] = useState(false);
 
-  const [numberOfGroups, setNumberOfGroups] = useState(MIN_NUMBER_OG_GROUPS);
+  const [numberOfGroups, setNumberOfGroups] = useState(groupConfig.MIN);
   const [groups, setGroups] = useState<string[][]>([]);
 
   useEffect(() => {
     if (animationDone) {
       generateGroups();
       setHasStarted(false);
+
+      launchConfetti();
     }
   }, [animationDone]);
 
@@ -47,7 +36,7 @@ const Group = () => {
       setPressedKeys([]);
       setCurrentKey(null);
       setHasStarted(false);
-      setNumberOfGroups(MIN_NUMBER_OG_GROUPS);
+      setNumberOfGroups(groupConfig.MIN);
       setGroups([]);
       setAnimationDone(false);
     }
@@ -112,7 +101,7 @@ const Group = () => {
           text="+"
           handleClick={() =>
             setNumberOfGroups((prev) => {
-              if (prev < MAX_NUMBER_OF_GROUPS) {
+              if (prev < groupConfig.MAX) {
                 return prev + 1;
               }
               return prev;
@@ -124,7 +113,7 @@ const Group = () => {
           text="-"
           handleClick={() =>
             setNumberOfGroups((prev) => {
-              if (prev > MIN_NUMBER_OG_GROUPS) {
+              if (prev > groupConfig.MIN) {
                 return prev - 1;
               }
 

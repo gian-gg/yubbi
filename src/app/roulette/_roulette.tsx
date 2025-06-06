@@ -7,6 +7,7 @@ import KeyHighlighter from "@components/KeyHighlighter";
 
 import { NoFingersDetected } from "@utils/Toasts";
 import rouletteAnimation from "@utils/RouletteAnimation";
+import { launchConfetti } from "@utils/Confetti";
 
 const Roulette = () => {
   const [mode, setMode] = useState("keys-mode"); // keys-mode or touch-mode
@@ -19,6 +20,8 @@ const Roulette = () => {
   useEffect(() => {
     if (animationDone) {
       setHasStarted(false);
+
+      launchConfetti();
     }
   }, [animationDone]);
 

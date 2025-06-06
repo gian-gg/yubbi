@@ -3,14 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { capitalizeFirstLetter } from "@utils/Misc";
-
-const themes = [
-  { name: "mauve", emoji: "💜", color: "#d1ace0" },
-  { name: "lumen", emoji: "☀️", color: "#f0e07f" },
-  { name: "minty", emoji: "🌿", color: "#7ee3d0" },
-  { name: "blush", emoji: "🌸", color: "#ffc1c0" },
-  { name: "aether", emoji: "☁️", color: "#9cd3ff" },
-];
+import { themes } from "@/data";
 
 const Footer = () => {
   const [currentTheme, setCurrentTheme] = useState<string>("mauve");
