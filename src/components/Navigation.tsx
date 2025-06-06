@@ -53,13 +53,28 @@ const NavLink = ({ text, route }: NavLinkProps) => {
   );
 };
 
+interface ContainerProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+const Container = ({ className, children }: ContainerProps) => {
+  return (
+    <div
+      className={`bg-base-200/60 p-2 px-6 rounded-lg text-base-content/75  bg-clip-padding backdrop-filter backdrop-blur-sm border-1 border-base-200  ${className}`}
+    >
+      {children}
+    </div>
+  );
+};
+
 interface NavBarProps {
   children?: React.ReactNode;
 }
 
 const NavBar = ({ children }: NavBarProps) => {
   return (
-    <div className="flex gap-8 bg-base-200/60 p-2 px-6 rounded-lg text-base-content/75">
+    <Container className="flex gap-8">
       <NavLink text="🎲 Roulette" route="/roulette" />
       <NavLink text="👥 Group" route="/group" />
       {children && (
@@ -68,7 +83,7 @@ const NavBar = ({ children }: NavBarProps) => {
           {children}
         </>
       )}
-    </div>
+    </Container>
   );
 };
 
@@ -93,4 +108,4 @@ const RadioButton = ({ text, setMode, mode }: RadioButtonProps) => {
   );
 };
 
-export { NavBar, NavLink, RadioButton, NavDivider, NavButton };
+export { NavBar, NavLink, RadioButton, NavDivider, NavButton, Container };

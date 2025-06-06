@@ -23,7 +23,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="flex justify-between items-center w-full text-base-content/70 transition-colors duration-200 font-primary text-sm">
+    <footer className="flex justify-between items-center w-full text-base-content/70 transition-colors duration-200 font-primary text-lg">
       <Link
         href="https://github.com/gian-gg/yubi"
         target="_blank"
@@ -54,7 +54,7 @@ const Footer = () => {
         </div>
         <ul
           tabIndex={0}
-          className="dropdown-content bg-base-200/60 z-1 w-52 p-2 font-secondary rounded-lg"
+          className="dropdown-content bg-base-200/60 z-1 w-52 p-2 font-secondary rounded-lg text-md"
         >
           {themes.map((theme) => (
             <li key={theme.name}>

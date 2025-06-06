@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect } from "react";
 
-import { NavBar, NavDivider } from "@components/Navigation";
+import { NavBar, NavDivider, Container } from "@components/Navigation";
 import { SwitchButton, ModeButtons } from "@components/Buttons";
 import KeyHighlighter from "@components/KeyHighlighter";
 
@@ -35,7 +35,7 @@ const Roulette = () => {
   };
 
   const start = useCallback(() => {
-    if (pressedKeys.length === 0) {
+    if (pressedKeys.length <= 1) {
       NoFingersDetected();
 
       return;
@@ -88,9 +88,7 @@ const Roulette = () => {
           ))}
         </div>
       </KeyHighlighter>
-      <ul className="flex gap-8 bg-base-200/60 p-2 px-6 rounded-lg text-sm text-base-100">
-        <li className="text-base-content">Fingers: {pressedKeys.length}</li>
-      </ul>
+      <Container>Fingers: {pressedKeys.length}</Container>
     </main>
   );
 };

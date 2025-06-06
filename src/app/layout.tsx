@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         data-theme="mauve"
-        className="antialiased w-screen h-screen bg-neutral text-base-content font-secondary flex flex-col justify-between items-center p-8 overflow-hidden lg:px-40 lg:pt-28"
+        className="antialiased w-screen h-screen bg-neutral text-base-content font-secondary flex flex-col justify-between items-center p-8 overflow-hidden lg:px-40 lg:pt-20"
         style={{
           backgroundImage: "url('/noise.png')",
           backgroundSize: "300px auto",
@@ -28,9 +28,9 @@ export default function RootLayout({
           backgroundPosition: "center",
         }}
       >
-        <div className="bg-white w-32 h-32 rounded-full blur-[128px] absolute -top-20" />
+        <div className="bg-white/50 w-[500px] h-[500px] rounded-full blur-[128px] absolute -top-[450px]" />
         <div
-          className="bg-primary w-48 h-48 rounded-full blur-[200px] absolute -bottom-48 animate-pulse"
+          className="bg-primary/30 w-[800px] h-[800px] rounded-full blur-[128px] absolute -bottom-[600px] animate-pulse"
           style={{ animationDuration: "4s" }}
         />
         <Header />

@@ -1,7 +1,12 @@
 "use client";
 import React, { useState, useCallback, useEffect } from "react";
 
-import { NavBar, NavDivider, NavButton } from "@components/Navigation";
+import {
+  NavBar,
+  NavDivider,
+  NavButton,
+  Container,
+} from "@components/Navigation";
 import { SwitchButton, ModeButtons } from "@components/Buttons";
 import KeyHighlighter from "@components/KeyHighlighter";
 
@@ -59,8 +64,9 @@ const Group = () => {
   };
 
   const start = useCallback(() => {
-    if (pressedKeys.length === 0) {
+    if (pressedKeys.length <= 1) {
       NoFingersDetected();
+
       return;
     }
 
@@ -104,6 +110,7 @@ const Group = () => {
               if (prev < groupConfig.MAX) {
                 return prev + 1;
               }
+              yubiToast("Maximum number of groups reached.", "warning");
               return prev;
             })
           }
@@ -116,7 +123,7 @@ const Group = () => {
               if (prev > groupConfig.MIN) {
                 return prev - 1;
               }
-
+              yubiToast("Minimum number of groups reached.", "warning");
               return prev;
             })
           }
@@ -139,7 +146,7 @@ const Group = () => {
         start={() => start()}
         reset={() => reset()}
       >
-        <div className="bg-base-200/60 min-h-60 w-full p-8 my-8 rounded-lg flex items-center justify-center gap-4">
+        <Container className="min-h-60 w-full p-8 my-8 flex items-center justify-center gap-4">
           {pressedKeys.map((key, index) => {
             const highlightStyle =
               key === currentKey && hasStarted ? {} : highlightGroup(key);
@@ -158,24 +165,23 @@ const Group = () => {
               </kbd>
             );
           })}
-        </div>
+        </Container>
       </KeyHighlighter>
-      <ul className="flex gap-4 bg-base-200/60 p-2 px-6 rounded-lg text-sm text-neutral">
-        <li className="text-base-content">Fingers: {pressedKeys.length}</li>
-
+      <Container className="flex gap-4">
+        <p className="text-base-content">Fingers: {pressedKeys.length}</p>
         <NavDivider />
         <ul className="flex gap-2">
           {Array.from({ length: numberOfGroups }).map((_, i) => (
             <li
               key={i}
-              className="w-6 h-6 rounded flex justify-center items-center"
+              className="w-6 h-6 rounded flex justify-center items-center text-neutral"
               style={{ backgroundColor: groupColors[i] }}
             >
               {i + 1}
             </li>
           ))}
         </ul>
-      </ul>
+      </Container>
     </main>
   );
 };
