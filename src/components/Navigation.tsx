@@ -57,7 +57,7 @@ const NavLink = ({ icon, text, route }: NavLinkProps) => {
 
 interface ContainerProps {
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Container = ({ className, children }: ContainerProps) => {
