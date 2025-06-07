@@ -3,7 +3,7 @@ import React from "react";
 import { useRouter, usePathname } from "next/navigation";
 
 const NavDivider = () => {
-  return <div className="h-full w-1 bg-base-content/10" />;
+  return <div className="w-1 bg-base-content/10 self-stretch" />;
 };
 
 interface NavButtonProps {
@@ -63,7 +63,7 @@ interface ContainerProps {
 const Container = ({ className, children }: ContainerProps) => {
   return (
     <div
-      className={`text-xs md:text-sm lg:text-md bg-base-200/60 p-2 px-4 md:px-6 rounded-lg text-base-content/75  bg-clip-padding backdrop-filter backdrop-blur-sm border-1 border-base-200  ${className}`}
+      className={`text-xs md:text-sm lg:text-md bg-base-200/60 p-2 px-4 md:px-6 rounded-lg text-base-content/75  bg-clip-padding backdrop-filter backdrop-blur-sm border-1 border-base-200 h-full  ${className}`}
     >
       {children}
     </div>
@@ -76,7 +76,7 @@ interface NavBarProps {
 
 const NavBar = ({ children }: NavBarProps) => {
   return (
-    <Container className="flex gap-6 md:gap-8 justify-center items-center">
+    <Container className="flex gap-4 md:gap-8 justify-center items-center">
       <NavLink icon="🎲" text="Roulette" route="/roulette" />
       <NavLink icon="👥" text="Group" route="/group" />
       {children && (

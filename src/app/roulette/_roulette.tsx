@@ -52,7 +52,7 @@ const Roulette = () => {
   }, [pressedKeys]);
 
   return (
-    <main className="h-full w-full flex flex-col items-center mb-2">
+    <>
       <NavBar>
         <div className="h-full hidden md:flex items-center gap-6">
           <ModeButtons mode={mode} setMode={setMode} />
@@ -75,7 +75,7 @@ const Roulette = () => {
         start={() => start()}
         reset={() => reset()}
       >
-        <Container className="h-full lg:min-h-[240px] min-h-60 w-full p-8 my-2 lg:my-6 flex flex-wrap lg:items-center justify-center gap-2 lg:gap-4">
+        <Container className="h-full w-full min-h-[200px] max-h-[800px] flex-1 p-8 my-2 lg:my-6 flex flex-wrap lg:items-center justify-center gap-2 lg:gap-4">
           {pressedKeys.map((key, index) => (
             <kbd
               key={index}
@@ -95,7 +95,7 @@ const Roulette = () => {
         </Container>
       </KeyHighlighter>
       <Container>Fingers: {pressedKeys.length}</Container>
-    </main>
+    </>
   );
 };
 

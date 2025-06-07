@@ -23,7 +23,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="mt-20 flex justify-between items-center w-full text-base-content/70 transition-colors duration-200 font-primary text-xs md:text-md lg:text-lg">
+    <footer className="max-w-[1200px] flex justify-between items-center w-full text-base-content/70 transition-colors duration-200 font-primary text-xs md:text-md lg:text-lg">
       <Link
         href="https://github.com/gian-gg"
         target="_blank"

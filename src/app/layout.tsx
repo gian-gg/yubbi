@@ -18,9 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body data-theme="mauve" className="antialiased w-screen h-screen">
+      <body data-theme="mauve" className="antialiased">
         <div
-          className="w-full h-full bg-neutral text-base-content font-secondary flex flex-col justify-between items-center p-4 lg:p-8 lg:px-40 lg:pt-20 overflow-hidden relative"
+          className="min-w-screen min-h-screen bg-neutral text-base-content font-secondary flex flex-col justify-between items-center p-4 lg:p-8 lg:px-40 lg:pt-20"
           style={{
             backgroundImage: "url('/noise.png')",
             backgroundSize: "300px auto",
@@ -28,27 +28,29 @@ export default function RootLayout({
             backgroundPosition: "center",
           }}
         >
-          <div className="bg-white/50 w-[500px] h-[500px] rounded-full blur-[128px] absolute -top-[450px]" />
-          <div
-            className="bg-primary/30 w-[800px] h-[800px] rounded-full blur-[128px] absolute -bottom-[600px] animate-pulse"
-            style={{ animationDuration: "4s" }}
-          />
           <Header />
-          {children}
+          <main className="h-full w-full flex flex-col flex-1 items-center  max-w-[1200px] mb-24">
+            {children}
+          </main>
           <Footer />
 
-          <Toaster
-            visibleToasts={1}
-            icons={{
-              warning: "⚠️",
-              error: "❌",
-            }}
-            offset={{ bottom: "75px" }}
-            mobileOffset={{ bottom: "65px" }}
-            position="bottom-center"
-            style={{ zIndex: 49 }}
+          <div className="bg-white/50 w-[300px] h-[300px] md:w-[500px] md:h-[500px] blur-[128px] rounded-full fixed -top-[200px] md:-top-[400px]" />
+          <div
+            className="bg-primary/30 w-[400px] h-[400px] md:w-[600px] md:h-[600px] rounded-full blur-[128px] animate-pulse fixed -bottom-[300px] md:-bottom-[400px]"
+            style={{ animationDuration: "4s" }}
           />
         </div>
+        <Toaster
+          visibleToasts={1}
+          icons={{
+            warning: "⚠️",
+            error: "❌",
+          }}
+          offset={{ bottom: "75px" }}
+          mobileOffset={{ bottom: "65px" }}
+          position="bottom-center"
+          style={{ zIndex: 49 }}
+        />
       </body>
     </html>
   );
