@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { readFile } from "fs/promises";
 
 const NavDivider = () => {
   return <div className="w-1 bg-base-content/10 self-stretch" />;
@@ -58,11 +59,13 @@ const NavLink = ({ icon, text, route }: NavLinkProps) => {
 interface ContainerProps {
   className?: string;
   children?: React.ReactNode;
+  ref?: React.RefObject<HTMLDivElement | null>;
 }
 
-const Container = ({ className, children }: ContainerProps) => {
+const Container = ({ className, children, ref }: ContainerProps) => {
   return (
     <div
+      ref={ref}
       className={`text-xs md:text-sm lg:text-md bg-base-200/60 p-2 px-4 md:px-6 rounded-lg text-base-content/75  bg-clip-padding backdrop-filter backdrop-blur-sm border-1 border-base-200 h-full  ${className}`}
     >
       {children}
@@ -91,12 +94,12 @@ const RadioButton = ({ text, setMode, mode }: RadioButtonProps) => {
   );
 };
 
-interface KeyContainerProps {
+interface KeyElementProps {
   character: string;
   className?: string;
   style?: React.CSSProperties;
 }
-const KeyContainer = ({ character, className, style }: KeyContainerProps) => {
+const KeyElement = ({ character, className, style }: KeyElementProps) => {
   return (
     <kbd
       className={`kbd kbd-lg w-20 h-20 lg:w-40 lg:h-40 text-[40px] lg:text-[80px] transition-transform duration-200 bg-base-300 ${className}`}
@@ -107,4 +110,4 @@ const KeyContainer = ({ character, className, style }: KeyContainerProps) => {
   );
 };
 
-export { NavLink, RadioButton, NavDivider, NavButton, Container, KeyContainer };
+export { NavLink, RadioButton, NavDivider, NavButton, Container, KeyElement };

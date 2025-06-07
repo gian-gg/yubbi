@@ -7,31 +7,46 @@ interface SwitchButtonProps {
   start: () => void;
   reset: () => void;
   disable: boolean;
-  animationDone: boolean;
+  currentKey: string | null;
 }
 
 const SwitchButton = ({
   start,
   reset,
   disable,
-  animationDone,
+  currentKey,
 }: SwitchButtonProps) => {
-  const state = animationDone ? "reset" : "start";
   return (
-    <button
-      className={` ${
-        disable
-          ? "text-base-content/25 cursor-not-allowed"
-          : "hover:text-base-content active:text-base-content/75 cursor-pointer"
-      }`}
-      onClick={() => (state === "start" ? start() : reset())}
-      disabled={disable}
-    >
-      <kbd className="kbd kbd-sm hidden lg:inline-grid">
-        {state === "start" ? <EnterIcon /> : <EscapeIcon />}
-      </kbd>{" "}
-      {state === "start" ? "Start" : "Reset"}
-    </button>
+    <>
+      <button
+        className={`flex gap-2 ${
+          disable || currentKey !== null
+            ? "text-base-content/25 cursor-not-allowed"
+            : "hover:text-base-content active:text-base-content/75 cursor-pointer"
+        }`}
+        onClick={start}
+        disabled={disable || currentKey !== null}
+      >
+        <kbd className="kbd kbd-sm hidden lg:inline-grid">
+          <EnterIcon />
+        </kbd>
+        Start
+      </button>
+      <button
+        className={`flex gap-2 ${
+          disable
+            ? "text-base-content/25 cursor-not-allowed"
+            : "hover:text-base-content active:text-base-content/75 cursor-pointer"
+        }`}
+        onClick={reset}
+        disabled={disable}
+      >
+        <kbd className="kbd kbd-sm hidden lg:inline-grid">
+          <EscapeIcon />
+        </kbd>
+        Reset
+      </button>
+    </>
   );
 };
 
@@ -88,4 +103,25 @@ const BottomBar = ({ fingers, tooltip, children }: BottomBarProps) => {
   );
 };
 
-export { SwitchButton, ModeButtons, ToolBar, BottomBar };
+interface FingerContainerProps {
+  className?: string;
+  children?: React.ReactNode;
+  ref?: React.RefObject<HTMLDivElement | null>;
+}
+
+const FingerContainer = ({
+  className,
+  children,
+  ref,
+}: FingerContainerProps) => {
+  return (
+    <Container
+      ref={ref}
+      className={`${className} h-full w-full min-h-[200px] max-h-[800px] flex-1 p-8 my-2 lg:my-6 flex flex-wrap lg:items-center justify-center gap-2 lg:gap-4`}
+    >
+      {children}
+    </Container>
+  );
+};
+
+export { SwitchButton, ModeButtons, ToolBar, BottomBar, FingerContainer };

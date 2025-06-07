@@ -1,12 +1,13 @@
 "use client";
 import React, { useState, useCallback, useEffect } from "react";
 
-import { NavDivider, NavButton, Container, KeyContainer } from "@components/UI";
+import { NavDivider, NavButton, KeyElement } from "@components/UI";
 import {
   SwitchButton,
   ModeButtons,
   ToolBar,
   BottomBar,
+  FingerContainer,
 } from "@components/Components";
 import KeyHighlighter from "@components/KeyHighlighter";
 
@@ -141,7 +142,7 @@ const Group = () => {
           start={start}
           reset={reset}
           disable={hasStarted}
-          animationDone={animationDone}
+          currentKey={currentKey}
         />
       </ToolBar>
 
@@ -152,13 +153,13 @@ const Group = () => {
         start={() => start()}
         reset={() => reset()}
       >
-        <Container className="h-full w-full min-h-[200px] max-h-[800px] flex-1 p-8 my-2 lg:my-6 flex flex-wrap lg:items-center justify-center gap-2 lg:gap-4">
+        <FingerContainer>
           {pressedKeys.map((key, index) => {
             const highlightStyle =
               key === currentKey && hasStarted ? {} : highlightGroup(key);
 
             return (
-              <KeyContainer
+              <KeyElement
                 key={index}
                 className={
                   key === currentKey && hasStarted
@@ -170,7 +171,7 @@ const Group = () => {
               />
             );
           })}
-        </Container>
+        </FingerContainer>
       </KeyHighlighter>
       <BottomBar
         fingers={pressedKeys.length}
