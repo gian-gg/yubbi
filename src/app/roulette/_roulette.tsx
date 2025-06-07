@@ -1,8 +1,13 @@
 "use client";
 import { useState, useCallback, useEffect } from "react";
 
-import { NavBar, NavDivider, Container } from "@components/Navigation";
-import { SwitchButton, ModeButtons } from "@components/Buttons";
+import { NavDivider, Container, KeyContainer } from "@components/UI";
+import {
+  SwitchButton,
+  ModeButtons,
+  ToolBar,
+  BottomBar,
+} from "@components/Components";
 import KeyHighlighter from "@components/KeyHighlighter";
 
 import { NoFingersDetected } from "@utils/Toasts";
@@ -53,7 +58,7 @@ const Roulette = () => {
 
   return (
     <>
-      <NavBar>
+      <ToolBar>
         <div className="h-full hidden md:flex items-center gap-6">
           <ModeButtons mode={mode} setMode={setMode} />
 
@@ -66,7 +71,7 @@ const Roulette = () => {
           disable={hasStarted}
           animationDone={animationDone}
         />
-      </NavBar>
+      </ToolBar>
 
       <KeyHighlighter
         setPressedKeys={setPressedKeys}
@@ -77,24 +82,24 @@ const Roulette = () => {
       >
         <Container className="h-full w-full min-h-[200px] max-h-[800px] flex-1 p-8 my-2 lg:my-6 flex flex-wrap lg:items-center justify-center gap-2 lg:gap-4">
           {pressedKeys.map((key, index) => (
-            <kbd
+            <KeyContainer
               key={index}
-              className={`kbd kbd-lg w-20 h-20 lg:w-40 lg:h-40 text-[40px] lg:text-[80px] transition-transform duration-200 bg-base-300 
-            ${
-              key === currentKey
-                ? hasStarted
-                  ? "bg-secondary scale-110"
-                  : "bg-primary animate-pulse scale-125 mx-3 md:mx-6 lg:mx-10"
-                : ""
-            }
-            `}
-            >
-              {key}
-            </kbd>
+              className={
+                key === currentKey
+                  ? hasStarted
+                    ? "bg-secondary scale-110"
+                    : "bg-primary animate-pulse scale-125 mx-3 md:mx-6 lg:mx-10"
+                  : ""
+              }
+              character={key}
+            />
           ))}
         </Container>
       </KeyHighlighter>
-      <Container>Fingers: {pressedKeys.length}</Container>
+      <BottomBar
+        fingers={pressedKeys.length}
+        tooltip="Instant finger-based random selector."
+      />
     </>
   );
 };

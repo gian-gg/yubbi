@@ -1,13 +1,13 @@
 "use client";
 import React, { useState, useCallback, useEffect } from "react";
 
+import { NavDivider, NavButton, Container, KeyContainer } from "@components/UI";
 import {
-  NavBar,
-  NavDivider,
-  NavButton,
-  Container,
-} from "@components/Navigation";
-import { SwitchButton, ModeButtons } from "@components/Buttons";
+  SwitchButton,
+  ModeButtons,
+  ToolBar,
+  BottomBar,
+} from "@components/Components";
 import KeyHighlighter from "@components/KeyHighlighter";
 
 import { NoFingersDetected, yubiToast } from "@utils/Toasts";
@@ -101,7 +101,7 @@ const Group = () => {
 
   return (
     <>
-      <NavBar>
+      <ToolBar>
         <div className="h-full hidden md:flex items-center gap-6">
           <ModeButtons mode={mode} setMode={setMode} />
 
@@ -143,7 +143,7 @@ const Group = () => {
           disable={hasStarted}
           animationDone={animationDone}
         />
-      </NavBar>
+      </ToolBar>
 
       <KeyHighlighter
         setPressedKeys={setPressedKeys}
@@ -158,23 +158,24 @@ const Group = () => {
               key === currentKey && hasStarted ? {} : highlightGroup(key);
 
             return (
-              <kbd
+              <KeyContainer
                 key={index}
-                className={`kbd kbd-lg w-20 h-20 lg:w-40 lg:h-40 text-[40px] lg:text-[80px] transition-transform duration-200 bg-base-300 ${
+                className={
                   key === currentKey && hasStarted
                     ? "bg-secondary scale-110"
                     : ""
-                }`}
+                }
+                character={key}
                 style={highlightStyle}
-              >
-                {key}
-              </kbd>
+              />
             );
           })}
         </Container>
       </KeyHighlighter>
-      <Container className="flex gap-4 justify-center items-center">
-        <p>Fingers: {pressedKeys.length}</p>
+      <BottomBar
+        fingers={pressedKeys.length}
+        tooltip="Group fingers instantly, randomly."
+      >
         <NavDivider />
         <ul className="flex gap-2">
           {Array.from({ length: numberOfGroups }).map((_, i) => (
@@ -187,7 +188,7 @@ const Group = () => {
             </li>
           ))}
         </ul>
-      </Container>
+      </BottomBar>
     </>
   );
 };

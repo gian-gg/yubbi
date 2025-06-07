@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
+import { ChevronDownIcon } from "@components/Icons";
+
 import { capitalizeFirstLetter } from "@utils/Misc";
 import { themes } from "@/data";
 
@@ -23,7 +25,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="max-w-[1200px] flex justify-between items-center w-full text-base-content/70 transition-colors duration-200 font-primary text-xs md:text-md lg:text-lg">
+    <footer className="max-w-[1200px] flex justify-between items-center w-full text-base-content/70 transition-colors duration-200 font-primary text-xs md:text-md lg:text-lg z-10">
       <Link
         href="https://github.com/gian-gg"
         target="_blank"
@@ -42,21 +44,7 @@ const Footer = () => {
             {themes.find((theme) => theme.name === currentTheme)?.emoji}
           </span>
           {capitalizeFirstLetter(currentTheme)}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="ml-1 h-3 w-3 md:h-4 md:w-4 inline-block"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5 15l7-7 7 7"
-            />
-          </svg>
+          <ChevronDownIcon />
         </div>
         <ul
           tabIndex={0}

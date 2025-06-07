@@ -70,25 +70,6 @@ const Container = ({ className, children }: ContainerProps) => {
   );
 };
 
-interface NavBarProps {
-  children?: React.ReactNode;
-}
-
-const NavBar = ({ children }: NavBarProps) => {
-  return (
-    <Container className="flex gap-4 md:gap-8 justify-center items-center">
-      <NavLink icon="🎲" text="Roulette" route="/roulette" />
-      <NavLink icon="👥" text="Group" route="/group" />
-      {children && (
-        <>
-          <NavDivider />
-          {children}
-        </>
-      )}
-    </Container>
-  );
-};
-
 interface RadioButtonProps {
   text: string;
   setMode: (mode: string) => void;
@@ -110,4 +91,20 @@ const RadioButton = ({ text, setMode, mode }: RadioButtonProps) => {
   );
 };
 
-export { NavBar, NavLink, RadioButton, NavDivider, NavButton, Container };
+interface KeyContainerProps {
+  character: string;
+  className?: string;
+  style?: React.CSSProperties;
+}
+const KeyContainer = ({ character, className, style }: KeyContainerProps) => {
+  return (
+    <kbd
+      className={`kbd kbd-lg w-20 h-20 lg:w-40 lg:h-40 text-[40px] lg:text-[80px] transition-transform duration-200 bg-base-300 ${className}`}
+      style={style}
+    >
+      {character}
+    </kbd>
+  );
+};
+
+export { NavLink, RadioButton, NavDivider, NavButton, Container, KeyContainer };

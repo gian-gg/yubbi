@@ -1,4 +1,4 @@
-import { Container } from "@components/Navigation";
+import { Container } from "@components/UI";
 
 export default function Loading() {
   return (

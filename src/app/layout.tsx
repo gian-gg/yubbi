@@ -28,17 +28,16 @@ export default function RootLayout({
             backgroundPosition: "center",
           }}
         >
+          <div className="bg-white/50 w-[300px] h-[300px] md:w-[500px] md:h-[500px] blur-[128px] rounded-full fixed -top-[200px] md:-top-[400px] z-[5]" />
+          <div
+            className="bg-primary/30 w-[400px] h-[400px] md:w-[600px] md:h-[600px] rounded-full blur-[128px] animate-pulse fixed -bottom-[300px] md:-bottom-[400px] z-[5]"
+            style={{ animationDuration: "4s" }}
+          />
           <Header />
-          <main className="h-full w-full flex flex-col flex-1 items-center  max-w-[1200px] mb-24">
+          <main className="h-full w-full flex flex-col flex-1 items-center  max-w-[1200px] mb-24 z-10">
             {children}
           </main>
           <Footer />
-
-          <div className="bg-white/50 w-[300px] h-[300px] md:w-[500px] md:h-[500px] blur-[128px] rounded-full fixed -top-[200px] md:-top-[400px]" />
-          <div
-            className="bg-primary/30 w-[400px] h-[400px] md:w-[600px] md:h-[600px] rounded-full blur-[128px] animate-pulse fixed -bottom-[300px] md:-bottom-[400px]"
-            style={{ animationDuration: "4s" }}
-          />
         </div>
         <Toaster
           visibleToasts={1}
