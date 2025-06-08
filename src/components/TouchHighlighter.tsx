@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { FingerContainer } from "@components/Components";
 
@@ -13,7 +13,6 @@ interface TouchHighlighterProps {
   currentKey: string | null;
   hasStarted: boolean;
   start: () => void;
-  reset: () => void;
   children: React.ReactNode;
 }
 
@@ -23,13 +22,36 @@ const TouchHighlighter = ({
   currentKey,
   hasStarted,
   start,
-  reset,
   children,
 }: TouchHighlighterProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const [isStable, setIsStable] = useState(false);
+
+  useEffect(() => {
+    // Reset isStable when reset button is clicked
+    if (!hasStarted && !currentKey) {
+      setIsStable(false);
+    }
+  }, [hasStarted, currentKey]);
+
+  useEffect(() => {
+    if (currentKey || activeTouches.length <= 1) return;
+
+    const timeoutId: ReturnType<typeof setTimeout> = setTimeout(() => {
+      setIsStable(true);
+      start();
+    }, 3000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [currentKey, isStable, activeTouches, start]);
+
   const handleTouchStart = useCallback(
     (e: TouchEvent) => {
+      setIsStable(false);
+
       setActiveTouches((prev) => {
         const touch = e.changedTouches[0];
         const newTouch: ActiveTouchData = {
@@ -41,11 +63,13 @@ const TouchHighlighter = ({
         return [...prev, newTouch];
       });
     },
-    [currentKey, setActiveTouches, start, reset]
+    [setActiveTouches]
   );
 
   const handleTouchEnd = useCallback(
     (e: TouchEvent) => {
+      setIsStable(false);
+
       if (!currentKey) {
         setActiveTouches((prev) =>
           prev.filter((t) => t.id !== e.changedTouches[0].identifier)
@@ -57,6 +81,8 @@ const TouchHighlighter = ({
 
   const handleTouchChange = useCallback(
     (e: TouchEvent) => {
+      setIsStable(false);
+
       setActiveTouches((prev) => {
         const touch = e.changedTouches[0];
         return prev.map((t) =>
@@ -70,7 +96,7 @@ const TouchHighlighter = ({
   );
 
   useEffect(() => {
-    if (hasStarted) return;
+    if (hasStarted || currentKey || isStable) return;
 
     const container = containerRef.current;
 
@@ -86,9 +112,17 @@ const TouchHighlighter = ({
         container.removeEventListener("touchend", handleTouchEnd);
       }
     };
-  }, [handleTouchStart, handleTouchEnd, hasStarted, currentKey]);
+  }, [
+    handleTouchStart,
+    handleTouchChange,
+    handleTouchEnd,
+    hasStarted,
+    currentKey,
+    isStable,
+  ]);
   return (
     <FingerContainer ref={containerRef} className="relative">
+      <p>isStable:{isStable ? "true" : "false"}</p>
       <ul>
         {activeTouches.map((touch, index) => (
           <li key={index}>

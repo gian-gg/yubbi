@@ -50,7 +50,10 @@ const Roulette = () => {
   };
 
   const start = useCallback(() => {
-    if (pressedKeys.length <= 1) {
+    const fingerCount =
+      mode === "touch-mode" ? activeTouches.length : pressedKeys.length;
+
+    if (fingerCount <= 1) {
       NoFingersDetected();
 
       return;
@@ -59,8 +62,12 @@ const Roulette = () => {
     setCurrentKey(null);
     setHasStarted(true);
 
-    rouletteAnimation(setCurrentKey, pressedKeys, setAnimationDone);
-  }, [pressedKeys]);
+    if (mode === "touch-mode") {
+      rouletteAnimation(setCurrentKey, activeTouches, setAnimationDone);
+    } else {
+      rouletteAnimation(setCurrentKey, pressedKeys, setAnimationDone);
+    }
+  }, [mode, pressedKeys, activeTouches]);
 
   return (
     <>
@@ -86,12 +93,17 @@ const Roulette = () => {
           currentKey={currentKey}
           hasStarted={hasStarted}
           start={() => start()}
-          reset={() => reset()}
         >
           {activeTouches.map((touch, index) => (
             <div
               key={index}
-              className="w-20 h-20 bg-primary rounded-full absolute"
+              className={`w-20 h-20 bg-base-content rounded-full absolute ${
+                touch.id.toString() === currentKey
+                  ? hasStarted
+                    ? "bg-secondary scale-110"
+                    : "bg-primary animate-pulse scale-125 mx-3 md:mx-6 lg:mx-10"
+                  : ""
+              }`}
               style={{
                 left: `${touch.x}px`,
                 top: `${touch.y - 164}px`, // offset

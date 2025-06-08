@@ -19,7 +19,7 @@ const SwitchButton = ({
   return (
     <>
       <button
-        className={`flex gap-2 ${
+        className={`hidden lg:flex gap-2 ${
           disable || currentKey !== null
             ? "text-base-content/25 cursor-not-allowed"
             : "hover:text-base-content active:text-base-content/75 cursor-pointer"

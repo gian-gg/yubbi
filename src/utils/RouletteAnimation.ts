@@ -1,6 +1,8 @@
+import { ActiveTouchData } from "@/types";
+
 export default function rouletteAnimation(
   setCurrentKey: (key: string) => void,
-  pressedKeys: string[],
+  pressedKeys: string[] | ActiveTouchData[],
   setAnimationDone: (done: boolean) => void
 ): void {
   let index = 0;
@@ -9,7 +11,8 @@ export default function rouletteAnimation(
   let spins = 0;
 
   const intervalId = setInterval(() => {
-    setCurrentKey(pressedKeys[index % pressedKeys.length]);
+    const key = pressedKeys[index % pressedKeys.length];
+    setCurrentKey(typeof key === "string" ? key : key?.id.toString());
 
     index++;
     spins++;

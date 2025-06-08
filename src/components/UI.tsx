@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { readFile } from "fs/promises";
 
 const NavDivider = () => {
   return <div className="w-1 bg-base-content/10 self-stretch" />;
@@ -9,13 +8,21 @@ const NavDivider = () => {
 
 interface NavButtonProps {
   text: string;
+  disable?: boolean;
+  className?: string;
   handleClick: () => void;
 }
 
-const NavButton = ({ text, handleClick }: NavButtonProps) => {
+const NavButton = ({
+  text,
+  disable,
+  className,
+  handleClick,
+}: NavButtonProps) => {
   return (
     <button
-      className="hover:text-base-content active:text-base-content/75 transition-colors duration-200 cursor-pointer"
+      className={`hover:text-base-content active:text-base-content/75 transition-colors duration-200 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed  ${className}`}
+      disabled={disable}
       onClick={handleClick}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {

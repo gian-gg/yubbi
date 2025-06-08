@@ -112,6 +112,7 @@ const Group = () => {
         <p className="hidden md:block">Groups: </p>
         <NavButton
           text="+"
+          disable={groups.length !== 0 || hasStarted}
           handleClick={() =>
             setNumberOfGroups((prev) => {
               if (prev < groupConfig.MAX) {
@@ -125,6 +126,7 @@ const Group = () => {
         <p>{numberOfGroups}</p>
         <NavButton
           text="-"
+          disable={groups.length !== 0 || hasStarted}
           handleClick={() =>
             setNumberOfGroups((prev) => {
               if (prev > groupConfig.MIN) {
