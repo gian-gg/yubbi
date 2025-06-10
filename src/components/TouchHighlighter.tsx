@@ -123,14 +123,17 @@ const TouchHighlighter = ({
 
   return (
     <FingerContainer ref={containerRef} className="relative">
-      <p>isStable:{isStable ? "true" : "false"}</p>
-      <ul>
-        {activeTouches.map((touch, index) => (
-          <li key={index}>
-            <h1>{`${touch.id}: (${touch.x}, ${touch.y})`}</h1>
-          </li>
-        ))}
-      </ul>
+      {/* <div> // for debugging purposes
+        <p>isStable:{isStable ? "true" : "false"}</p>
+        <hr />
+        <ul>
+          {activeTouches.map((touch, index) => (
+            <li key={index}>
+              <h1>{`${touch.id}: (${touch.x}, ${touch.y})`}</h1>
+            </li>
+          ))}
+        </ul>
+      </div> */}
       {children}
     </FingerContainer>
   );

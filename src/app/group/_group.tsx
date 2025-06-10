@@ -213,7 +213,7 @@ const Group = () => {
       )}
 
       <BottomBar
-        fingers={pressedKeys.length}
+        fingers={pressedKeys.length | activeTouches.length}
         tooltip="Group fingers instantly, randomly."
       >
         <NavDivider />
