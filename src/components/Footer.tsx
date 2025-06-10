@@ -31,7 +31,7 @@ const Footer = () => {
         target="_blank"
         className="flex gap-2 items-center hover:text-base-content/100"
       >
-        © {new Date().getFullYear()}, gian.gg. All rights reserved.
+        Made with <span className="text-primary">♥︎</span> by gian.gg!
       </Link>
 
       <div className="dropdown dropdown-top dropdown-end">
