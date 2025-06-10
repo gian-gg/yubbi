@@ -24,6 +24,6 @@ const groupConfig = {
   MIN: 2,
 };
 
-const secondsToStabilize = 3;
+const secondsToStabilize = 2;
 
 export { themes, groupColors, groupConfig, secondsToStabilize };

@@ -132,7 +132,7 @@ const TouchElement = ({ className, touch, style }: TouchElementProps) => {
       className={`w-20 h-20 bg-base-200 border-2 border-base-300 rounded-full bg-clip-padding backdrop-filter backdrop-blur-sm  absolute ${className}`}
       style={{
         left: `${touch.x}px`,
-        top: `${touch.y - 164}px`, // offset
+        top: `${touch.y}px`, // offset
         transform: "translate(-50%, -50%)",
         ...style,
       }}

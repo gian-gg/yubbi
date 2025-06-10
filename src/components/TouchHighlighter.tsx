@@ -54,10 +54,12 @@ const TouchHighlighter = ({
 
       setActiveTouches((prev) => {
         const touch = e.changedTouches[0];
+        const rect = containerRef.current?.getBoundingClientRect();
+
         const newTouch: ActiveTouchData = {
           id: touch.identifier,
-          x: touch.clientX,
-          y: touch.clientY,
+          x: rect ? touch.clientX - rect.left : touch.clientX,
+          y: rect ? touch.clientY - rect.top : touch.clientY,
         };
 
         return [...prev, newTouch];
@@ -85,9 +87,14 @@ const TouchHighlighter = ({
 
       setActiveTouches((prev) => {
         const touch = e.changedTouches[0];
+        const rect = containerRef.current?.getBoundingClientRect();
         return prev.map((t) =>
           t.id === touch.identifier
-            ? { ...t, x: touch.clientX, y: touch.clientY }
+            ? {
+                ...t,
+                x: rect ? touch.clientX - rect.left : touch.clientX,
+                y: rect ? touch.clientY - rect.top : touch.clientY,
+              }
             : t
         );
       });
@@ -123,6 +130,14 @@ const TouchHighlighter = ({
 
   return (
     <FingerContainer ref={containerRef} className="relative">
+      <p className="self-end">
+        {activeTouches.length >= 2
+          ? hasStarted || currentFinger
+            ? null
+            : "Don't Move Fingers to Start."
+          : "Minimum of two fingers required to start."}
+      </p>
+
       {/* <div> // for debugging purposes
         <p>isStable:{isStable ? "true" : "false"}</p>
         <hr />
