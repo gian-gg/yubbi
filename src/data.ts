@@ -7,16 +7,16 @@ const themes = [
 ];
 
 const groupColors = [
-  "#d1ace0", // mauve
-  "#f0e07f", // lumen
-  "#7ee3d0", // minty
-  "#ffc1c0", // blush
-  "#9cd3ff", // aether
-  "#3D6EFF", // strong blue
-  "#FF6B81", // coral pink
-  "#F2F0EE", // pastel white
-  "#FF8F2C", // vivid orange
-  "#00B27A", // teal green
+  "#9cd3ff", // Aether (light, airy accent)
+  "#d1ace0", // Mauve (subtle, neutral)
+  "#f2f0ee", // Pastel White (clean background)
+  "#FFD166", // Golden Yellow (warmer, less clash)
+  "#7ee3d0", // Minty (cool, calming)
+  "#FF6B81", // Coral Pink (soft but vibrant)
+  "#3D6EFF", // Strong Blue (high contrast, bold)
+  "#FF8F2C", // Vivid Orange (energetic, complements blue)
+  "#00B27A", // Teal Green (fresh, balances warmth)
+  "#7047EB", // Royal Purple (replaces harsh yellow)
 ];
 
 const groupConfig = {
@@ -24,4 +24,6 @@ const groupConfig = {
   MIN: 2,
 };
 
-export { themes, groupColors, groupConfig };
+const secondsToStabilize = 3;
+
+export { themes, groupColors, groupConfig, secondsToStabilize };

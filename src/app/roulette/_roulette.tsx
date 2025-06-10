@@ -28,7 +28,7 @@ const Roulette = () => {
 
   const [activeTouches, setActiveTouches] = useState<ActiveTouchData[]>([]);
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);
-  const [currentKey, setCurrentKey] = useState<string | null>(null);
+  const [currentFinger, setCurrentFinger] = useState<string | null>(null);
   const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const Roulette = () => {
   const reset = () => {
     if (!hasStarted) {
       setPressedKeys([]);
-      setCurrentKey(null);
+      setCurrentFinger(null);
       setHasStarted(false);
       setAnimationDone(false);
       setActiveTouches([]);
@@ -59,13 +59,13 @@ const Roulette = () => {
       return;
     }
 
-    setCurrentKey(null);
+    setCurrentFinger(null);
     setHasStarted(true);
 
     if (mode === "touch-mode") {
-      rouletteAnimation(setCurrentKey, activeTouches, setAnimationDone);
+      rouletteAnimation(setCurrentFinger, activeTouches, setAnimationDone);
     } else {
-      rouletteAnimation(setCurrentKey, pressedKeys, setAnimationDone);
+      rouletteAnimation(setCurrentFinger, pressedKeys, setAnimationDone);
     }
   }, [mode, pressedKeys, activeTouches]);
 
@@ -82,7 +82,7 @@ const Roulette = () => {
           start={start}
           reset={reset}
           disable={hasStarted}
-          currentKey={currentKey}
+          currentFinger={currentFinger}
         />
       </ToolBar>
 
@@ -90,7 +90,7 @@ const Roulette = () => {
         <TouchHighlighter
           setActiveTouches={setActiveTouches}
           activeTouches={activeTouches}
-          currentKey={currentKey}
+          currentFinger={currentFinger}
           hasStarted={hasStarted}
           start={() => start()}
         >
@@ -99,11 +99,20 @@ const Roulette = () => {
               key={index}
               touch={touch}
               className={
-                touch.id.toString() === currentKey
+                touch.id.toString() === currentFinger
                   ? hasStarted
-                    ? "bg-secondary scale-110"
+                    ? "bg-secondary/75 scale-110 border-secondary/75"
                     : "bg-primary/75 animate-pulse border-primary scale-125 mx-3 md:mx-6 lg:mx-10"
                   : ""
+              }
+              style={
+                touch.id.toString() === currentFinger
+                  ? hasStarted
+                    ? {}
+                    : {
+                        boxShadow: `0 0 10px var(--color-primary)`,
+                      }
+                  : {}
               }
             />
           ))}
@@ -111,7 +120,7 @@ const Roulette = () => {
       ) : (
         <KeyHighlighter
           setPressedKeys={setPressedKeys}
-          currentKey={currentKey}
+          currentFinger={currentFinger}
           hasStarted={hasStarted}
           start={() => start()}
           reset={() => reset()}
@@ -121,10 +130,10 @@ const Roulette = () => {
               <KeyElement
                 key={index}
                 className={
-                  key === currentKey
+                  key === currentFinger
                     ? hasStarted
                       ? "bg-secondary scale-110"
-                      : "bg-primary animate-pulse scale-125 mx-3 md:mx-6 lg:mx-10"
+                      : "bg-primary animate-pulse scale-125 mx-3 md:mx-6 lg:mx-10 backdrop-blur-sm shadow-lg shadow-primary"
                     : ""
                 }
                 character={key}

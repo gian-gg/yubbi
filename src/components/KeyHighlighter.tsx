@@ -27,7 +27,7 @@ const ignoredKeys = [
 
 interface KeyHighlighterProps {
   setPressedKeys: (value: string[] | ((prev: string[]) => string[])) => void;
-  currentKey: string | null;
+  currentFinger: string | null;
   hasStarted: boolean;
   start: () => void;
   reset: () => void;
@@ -36,7 +36,7 @@ interface KeyHighlighterProps {
 
 const KeyHighlighter = ({
   setPressedKeys,
-  currentKey,
+  currentFinger,
   hasStarted,
   start,
   reset,
@@ -44,7 +44,7 @@ const KeyHighlighter = ({
 }: KeyHighlighterProps) => {
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === "Enter" && !currentKey) {
+      if (e.key === "Enter" && !currentFinger) {
         start();
         return;
       }
@@ -54,7 +54,7 @@ const KeyHighlighter = ({
         return;
       }
 
-      if (currentKey) return;
+      if (currentFinger) return;
 
       if (
         ignoredKeys.includes(e.key) ||
@@ -68,16 +68,16 @@ const KeyHighlighter = ({
         return prev;
       });
     },
-    [currentKey, setPressedKeys, start, reset]
+    [currentFinger, setPressedKeys, start, reset]
   );
 
   const handleKeyUp = useCallback(
     (e: KeyboardEvent) => {
-      if (!currentKey) {
+      if (!currentFinger) {
         setPressedKeys((prev) => prev.filter((key) => key !== e.key));
       }
     },
-    [currentKey, setPressedKeys]
+    [currentFinger, setPressedKeys]
   );
 
   useEffect(() => {
@@ -89,7 +89,7 @@ const KeyHighlighter = ({
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [handleKeyDown, handleKeyUp, hasStarted, currentKey]);
+  }, [handleKeyDown, handleKeyUp, hasStarted, currentFinger]);
   return <>{children}</>;
 };
 

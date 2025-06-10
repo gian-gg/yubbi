@@ -9,25 +9,25 @@ interface SwitchButtonProps {
   start: () => void;
   reset: () => void;
   disable: boolean;
-  currentKey: string | null;
+  currentFinger: string | null;
 }
 
 const SwitchButton = ({
   start,
   reset,
   disable,
-  currentKey,
+  currentFinger,
 }: SwitchButtonProps) => {
   return (
     <>
       <button
         className={`hidden lg:flex gap-2 ${
-          disable || currentKey !== null
+          disable || currentFinger !== null
             ? "text-base-content/25 cursor-not-allowed"
             : "hover:text-base-content active:text-base-content/75 cursor-pointer"
         }`}
         onClick={start}
-        disabled={disable || currentKey !== null}
+        disabled={disable || currentFinger !== null}
       >
         <kbd className="kbd kbd-sm hidden lg:inline-grid">
           <EnterIcon />

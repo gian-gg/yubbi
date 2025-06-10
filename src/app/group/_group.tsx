@@ -36,7 +36,7 @@ const Group = () => {
 
   const [activeTouches, setActiveTouches] = useState<ActiveTouchData[]>([]);
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);
-  const [currentKey, setCurrentKey] = useState<string | null>(null);
+  const [currentFinger, setCurrentFinger] = useState<string | null>(null);
   const [hasStarted, setHasStarted] = useState(false);
 
   const [numberOfGroups, setNumberOfGroups] = useState(groupConfig.MIN);
@@ -58,7 +58,7 @@ const Group = () => {
   const reset = () => {
     if (!hasStarted) {
       setPressedKeys([]);
-      setCurrentKey(null);
+      setCurrentFinger(null);
       setHasStarted(false);
       setNumberOfGroups(groupConfig.MIN);
       setGroups([]);
@@ -82,13 +82,13 @@ const Group = () => {
       return;
     }
 
-    setCurrentKey(null);
+    setCurrentFinger(null);
     setHasStarted(true);
 
     if (mode === "touch-mode") {
-      rouletteAnimation(setCurrentKey, activeTouches, setAnimationDone);
+      rouletteAnimation(setCurrentFinger, activeTouches, setAnimationDone);
     } else {
-      rouletteAnimation(setCurrentKey, pressedKeys, setAnimationDone);
+      rouletteAnimation(setCurrentFinger, pressedKeys, setAnimationDone);
     }
   }, [activeTouches, pressedKeys, numberOfGroups, mode]);
 
@@ -99,7 +99,10 @@ const Group = () => {
       if (groups[i].includes(key)) {
         return {
           color: "var(--color-neutral)",
-          backgroundColor: groupColors[i],
+          backgroundColor: `${groupColors[i]}BF`, // 75% opacity
+          border: `4px solid ${groupColors[i]}D9`, // 85% opacity
+          backgroundClip: "padding-box",
+          boxShadow: `0 0 10px ${groupColors[i]}BF`,
         };
       }
     }
@@ -109,7 +112,7 @@ const Group = () => {
   return (
     <>
       <ToolBar>
-        <div className="h-full hidden md:flex items-center gap-6">
+        <div className="h-full hidden md:flex items-center gap-6 text-primary">
           <ModeButtons mode={mode} setMode={setMode} />
 
           <NavDivider />
@@ -150,7 +153,7 @@ const Group = () => {
           start={start}
           reset={reset}
           disable={hasStarted}
-          currentKey={currentKey}
+          currentFinger={currentFinger}
         />
       </ToolBar>
 
@@ -158,13 +161,13 @@ const Group = () => {
         <TouchHighlighter
           setActiveTouches={setActiveTouches}
           activeTouches={activeTouches}
-          currentKey={currentKey}
+          currentFinger={currentFinger}
           hasStarted={hasStarted}
           start={() => start()}
         >
           {activeTouches.map((touch, index) => {
             const isCurrentFinger =
-              touch.id.toString() === currentKey && hasStarted;
+              touch.id.toString() === currentFinger && hasStarted;
             const highlightStyle = isCurrentFinger
               ? {}
               : highlightGroup(touch.id.toString());
@@ -172,7 +175,11 @@ const Group = () => {
               <TouchElement
                 key={index}
                 touch={touch}
-                className={isCurrentFinger ? "bg-secondary scale-110" : ""}
+                className={
+                  isCurrentFinger
+                    ? "bg-secondary/75 scale-110 border-secondary/75"
+                    : ""
+                }
                 style={highlightStyle}
               />
             );
@@ -181,14 +188,14 @@ const Group = () => {
       ) : (
         <KeyHighlighter
           setPressedKeys={setPressedKeys}
-          currentKey={currentKey}
+          currentFinger={currentFinger}
           hasStarted={hasStarted}
           start={() => start()}
           reset={() => reset()}
         >
           <FingerContainer>
             {pressedKeys.map((key, index) => {
-              const isCurrentFinger = key === currentKey && hasStarted;
+              const isCurrentFinger = key === currentFinger && hasStarted;
 
               const highlightStyle = isCurrentFinger ? {} : highlightGroup(key);
 

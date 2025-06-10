@@ -129,7 +129,7 @@ interface TouchElementProps {
 const TouchElement = ({ className, touch, style }: TouchElementProps) => {
   return (
     <div
-      className={`w-20 h-20 bg-base-200 border-2 border-base-300 bg-clip-padding backdrop-filter backdrop-blur-sm rounded-full shadow-lg absolute ${className}`}
+      className={`w-20 h-20 bg-base-200 border-2 border-base-300 rounded-full bg-clip-padding backdrop-filter backdrop-blur-sm  absolute ${className}`}
       style={{
         left: `${touch.x}px`,
         top: `${touch.y - 164}px`, // offset
