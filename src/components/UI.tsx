@@ -2,6 +2,8 @@
 import React from "react";
 import { useRouter, usePathname } from "next/navigation";
 
+import { ActiveTouchData, Mode } from "@/types";
+
 const NavDivider = () => {
   return <div className="w-1 bg-base-content/10 self-stretch" />;
 };
@@ -82,7 +84,7 @@ const Container = ({ className, children, ref }: ContainerProps) => {
 
 interface RadioButtonProps {
   text: string;
-  setMode: (mode: string) => void;
+  setMode: (mode: Mode) => void;
   mode: string;
 }
 
@@ -91,7 +93,7 @@ const RadioButton = ({ text, setMode, mode }: RadioButtonProps) => {
 
   return (
     <button
-      onClick={() => setMode(text.toLowerCase() + "-mode")}
+      onClick={() => setMode((text.toLowerCase() + "-mode") as Mode)}
       className={`hover:text-base-content active:text-base-content/75 cursor-pointer ${
         isActive ? "text-primary" : "text-base-content/75"
       }`}
@@ -106,6 +108,7 @@ interface KeyElementProps {
   className?: string;
   style?: React.CSSProperties;
 }
+
 const KeyElement = ({ character, className, style }: KeyElementProps) => {
   return (
     <kbd
@@ -117,4 +120,32 @@ const KeyElement = ({ character, className, style }: KeyElementProps) => {
   );
 };
 
-export { NavLink, RadioButton, NavDivider, NavButton, Container, KeyElement };
+interface TouchElementProps {
+  touch: ActiveTouchData;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+const TouchElement = ({ className, touch, style }: TouchElementProps) => {
+  return (
+    <div
+      className={`w-20 h-20 bg-base-200 border-2 border-base-300 bg-clip-padding backdrop-filter backdrop-blur-sm rounded-full shadow-lg absolute ${className}`}
+      style={{
+        left: `${touch.x}px`,
+        top: `${touch.y - 164}px`, // offset
+        transform: "translate(-50%, -50%)",
+        ...style,
+      }}
+    ></div>
+  );
+};
+
+export {
+  NavLink,
+  RadioButton,
+  NavDivider,
+  NavButton,
+  Container,
+  KeyElement,
+  TouchElement,
+};

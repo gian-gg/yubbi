@@ -1,7 +1,12 @@
 "use client";
 import React, { useState, useCallback, useEffect } from "react";
 
-import { NavDivider, NavButton, KeyElement } from "@components/UI";
+import {
+  NavDivider,
+  NavButton,
+  KeyElement,
+  TouchElement,
+} from "@components/UI";
 import {
   SwitchButton,
   ModeButtons,
@@ -10,21 +15,26 @@ import {
   FingerContainer,
 } from "@components/Components";
 import KeyHighlighter from "@components/KeyHighlighter";
+import TouchHighlighter from "@components/TouchHighlighter";
 
 import { NoFingersDetected, yubiToast } from "@utils/Toasts";
 import rouletteAnimation from "@utils/RouletteAnimation";
 import { launchConfetti } from "@utils/Confetti";
+import generateGroups from "@utils/generateGroups";
 
-import { useChangeModeUsingScreenWidth } from "@utils/Misc";
+import useChangeModeUsingScreenWidth from "@hooks/useChangeModeUsingScreenWidth";
 
 import { groupColors, groupConfig } from "@/data";
 
+import { ActiveTouchData, Mode } from "@/types";
+
 const Group = () => {
-  const [mode, setMode] = useState("touch-mode"); // keys-mode or touch-mode
+  const [mode, setMode] = useState<Mode>("touch-mode");
   useChangeModeUsingScreenWidth(setMode);
 
   const [animationDone, setAnimationDone] = useState(false);
 
+  const [activeTouches, setActiveTouches] = useState<ActiveTouchData[]>([]);
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);
   const [currentKey, setCurrentKey] = useState<string | null>(null);
   const [hasStarted, setHasStarted] = useState(false);
@@ -32,30 +42,18 @@ const Group = () => {
   const [numberOfGroups, setNumberOfGroups] = useState(groupConfig.MIN);
   const [groups, setGroups] = useState<string[][]>([]);
 
-  const generateGroups = useCallback(() => {
-    const shuffledKeys = [...pressedKeys].sort(() => Math.random() - 0.5);
-
-    const newGroups: string[][] = Array.from(
-      { length: numberOfGroups },
-      () => []
-    );
-
-    shuffledKeys.forEach((key, index) => {
-      const groupIndex = index % numberOfGroups;
-      newGroups[groupIndex].push(key);
-    });
-
-    setGroups(newGroups);
-  }, [pressedKeys, numberOfGroups]);
-
   useEffect(() => {
     if (animationDone) {
-      generateGroups();
+      generateGroups(
+        mode === "touch-mode" ? activeTouches : pressedKeys,
+        numberOfGroups,
+        setGroups
+      );
       setHasStarted(false);
 
       launchConfetti();
     }
-  }, [animationDone, generateGroups]);
+  }, [animationDone, activeTouches, pressedKeys, numberOfGroups, mode]);
 
   const reset = () => {
     if (!hasStarted) {
@@ -65,17 +63,21 @@ const Group = () => {
       setNumberOfGroups(groupConfig.MIN);
       setGroups([]);
       setAnimationDone(false);
+      setActiveTouches([]);
     }
   };
 
   const start = useCallback(() => {
-    if (pressedKeys.length <= 1) {
+    const fingerCount =
+      mode === "touch-mode" ? activeTouches.length : pressedKeys.length;
+
+    if (fingerCount <= 1) {
       NoFingersDetected();
 
       return;
     }
 
-    if (pressedKeys.length < numberOfGroups) {
+    if (fingerCount < numberOfGroups) {
       yubiToast("Too many groups for the number of fingers.", "error");
       return;
     }
@@ -83,8 +85,12 @@ const Group = () => {
     setCurrentKey(null);
     setHasStarted(true);
 
-    rouletteAnimation(setCurrentKey, pressedKeys, setAnimationDone);
-  }, [pressedKeys, numberOfGroups]);
+    if (mode === "touch-mode") {
+      rouletteAnimation(setCurrentKey, activeTouches, setAnimationDone);
+    } else {
+      rouletteAnimation(setCurrentKey, pressedKeys, setAnimationDone);
+    }
+  }, [activeTouches, pressedKeys, numberOfGroups, mode]);
 
   const highlightGroup = (key: string): React.CSSProperties => {
     if (!groups.length) return {};
@@ -148,33 +154,57 @@ const Group = () => {
         />
       </ToolBar>
 
-      <KeyHighlighter
-        setPressedKeys={setPressedKeys}
-        currentKey={currentKey}
-        hasStarted={hasStarted}
-        start={() => start()}
-        reset={() => reset()}
-      >
-        <FingerContainer>
-          {pressedKeys.map((key, index) => {
-            const highlightStyle =
-              key === currentKey && hasStarted ? {} : highlightGroup(key);
-
+      {mode === "touch-mode" ? (
+        <TouchHighlighter
+          setActiveTouches={setActiveTouches}
+          activeTouches={activeTouches}
+          currentKey={currentKey}
+          hasStarted={hasStarted}
+          start={() => start()}
+        >
+          {activeTouches.map((touch, index) => {
+            const isCurrentFinger =
+              touch.id.toString() === currentKey && hasStarted;
+            const highlightStyle = isCurrentFinger
+              ? {}
+              : highlightGroup(touch.id.toString());
             return (
-              <KeyElement
+              <TouchElement
                 key={index}
-                className={
-                  key === currentKey && hasStarted
-                    ? "bg-secondary scale-110"
-                    : ""
-                }
-                character={key}
+                touch={touch}
+                className={isCurrentFinger ? "bg-secondary scale-110" : ""}
                 style={highlightStyle}
               />
             );
           })}
-        </FingerContainer>
-      </KeyHighlighter>
+        </TouchHighlighter>
+      ) : (
+        <KeyHighlighter
+          setPressedKeys={setPressedKeys}
+          currentKey={currentKey}
+          hasStarted={hasStarted}
+          start={() => start()}
+          reset={() => reset()}
+        >
+          <FingerContainer>
+            {pressedKeys.map((key, index) => {
+              const isCurrentFinger = key === currentKey && hasStarted;
+
+              const highlightStyle = isCurrentFinger ? {} : highlightGroup(key);
+
+              return (
+                <KeyElement
+                  key={index}
+                  className={isCurrentFinger ? "bg-secondary scale-110" : ""}
+                  character={key}
+                  style={highlightStyle}
+                />
+              );
+            })}
+          </FingerContainer>
+        </KeyHighlighter>
+      )}
+
       <BottomBar
         fingers={pressedKeys.length}
         tooltip="Group fingers instantly, randomly."

@@ -3,6 +3,8 @@ import React from "react";
 import { RadioButton, Container, NavDivider, NavLink } from "@components/UI";
 import { InfoIcon, EnterIcon, EscapeIcon } from "@components/Icons";
 
+import { Mode } from "@/types";
+
 interface SwitchButtonProps {
   start: () => void;
   reset: () => void;
@@ -51,8 +53,8 @@ const SwitchButton = ({
 };
 
 interface ModeButtonsProps {
-  mode: string;
-  setMode: (value: string) => void;
+  mode: Mode;
+  setMode: (value: Mode) => void;
 }
 
 const ModeButtons = ({ mode, setMode }: ModeButtonsProps) => {

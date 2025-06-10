@@ -4,4 +4,6 @@ interface ActiveTouchData {
   y: number;
 }
 
-export type { ActiveTouchData };
+type Mode = "touch-mode" | "keys-mode";
+
+export type { ActiveTouchData, Mode };

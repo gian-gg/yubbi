@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect } from "react";
 
-import { NavDivider, KeyElement } from "@components/UI";
+import { NavDivider, KeyElement, TouchElement } from "@components/UI";
 import {
   SwitchButton,
   ModeButtons,
@@ -16,12 +16,12 @@ import { NoFingersDetected } from "@utils/Toasts";
 import rouletteAnimation from "@utils/RouletteAnimation";
 import { launchConfetti } from "@utils/Confetti";
 
-import { useChangeModeUsingScreenWidth } from "@utils/Misc";
+import useChangeModeUsingScreenWidth from "@hooks/useChangeModeUsingScreenWidth";
 
-import { ActiveTouchData } from "@/types";
+import { ActiveTouchData, Mode } from "@/types";
 
 const Roulette = () => {
-  const [mode, setMode] = useState("touch-mode"); // keys-mode or touch-mode
+  const [mode, setMode] = useState<Mode>("touch-mode");
   useChangeModeUsingScreenWidth(setMode);
 
   const [animationDone, setAnimationDone] = useState(false);
@@ -95,21 +95,17 @@ const Roulette = () => {
           start={() => start()}
         >
           {activeTouches.map((touch, index) => (
-            <div
+            <TouchElement
               key={index}
-              className={`w-20 h-20 bg-base-content rounded-full absolute ${
+              touch={touch}
+              className={
                 touch.id.toString() === currentKey
                   ? hasStarted
                     ? "bg-secondary scale-110"
-                    : "bg-primary animate-pulse scale-125 mx-3 md:mx-6 lg:mx-10"
+                    : "bg-primary/75 animate-pulse border-primary scale-125 mx-3 md:mx-6 lg:mx-10"
                   : ""
-              }`}
-              style={{
-                left: `${touch.x}px`,
-                top: `${touch.y - 164}px`, // offset
-                transform: "translate(-50%, -50%)",
-              }}
-            ></div>
+              }
+            />
           ))}
         </TouchHighlighter>
       ) : (
