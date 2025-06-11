@@ -20,6 +20,8 @@ import useChangeModeUsingScreenWidth from "@hooks/useChangeModeUsingScreenWidth"
 
 import { ActiveTouchData, Mode } from "@/types";
 
+import { RouletteInfo } from "@/data";
+
 const Roulette = () => {
   const [mode, setMode] = useState<Mode>("touch-mode");
   useChangeModeUsingScreenWidth(setMode);
@@ -145,7 +147,7 @@ const Roulette = () => {
 
       <BottomBar
         fingers={pressedKeys.length | activeTouches.length}
-        tooltip="Instant finger-based random selector."
+        modalInfo={RouletteInfo}
       />
     </>
   );

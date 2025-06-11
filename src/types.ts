@@ -6,4 +6,10 @@ interface ActiveTouchData {
 
 type Mode = "touch-mode" | "keys-mode";
 
-export type { ActiveTouchData, Mode };
+interface ModalInfoData {
+  title: string;
+  img: string;
+  description: string;
+}
+
+export type { ActiveTouchData, Mode, ModalInfoData };

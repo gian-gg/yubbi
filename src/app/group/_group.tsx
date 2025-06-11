@@ -28,6 +28,8 @@ import { groupColors, groupConfig } from "@/data";
 
 import { ActiveTouchData, Mode } from "@/types";
 
+import { GroupInfo } from "@/data";
+
 const Group = () => {
   const [mode, setMode] = useState<Mode>("touch-mode");
   useChangeModeUsingScreenWidth(setMode);
@@ -214,7 +216,7 @@ const Group = () => {
 
       <BottomBar
         fingers={pressedKeys.length | activeTouches.length}
-        tooltip="Group fingers instantly, randomly."
+        modalInfo={GroupInfo}
       >
         <NavDivider />
         <ul className="flex gap-2">

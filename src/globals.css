@@ -3,7 +3,7 @@
 
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: all;
+  themes: mauve, blush, minty, lumen, aether;
 }
 
 @theme {

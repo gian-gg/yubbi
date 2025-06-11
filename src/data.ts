@@ -1,3 +1,5 @@
+import { ModalInfoData } from "@/types";
+
 const themes = [
   { name: "mauve", emoji: "💜", color: "#d1ace0" },
   { name: "lumen", emoji: "☀️", color: "#f0e07f" },
@@ -26,4 +28,68 @@ const groupConfig = {
 
 const secondsToStabilize = 2;
 
-export { themes, groupColors, groupConfig, secondsToStabilize };
+const RouletteInfo: ModalInfoData[] = [
+  {
+    title: "🎲 Finger Roulette",
+    img: "/cat-fingers.gif",
+    description: "Too many fingers? Let fate pick one.",
+  },
+  {
+    title: "🤔 Select Mode",
+    img: "/select-mode.png",
+    description:
+      "Touch = touchscreen, Keys = keyboard. (Only available on larger screens)",
+  },
+  {
+    title: "☝️ Place Fingers",
+    img: "/canvas.png",
+    description:
+      "Place fingers on the canvas or press keys on the keyboard. Max players depend on your device!",
+  },
+  {
+    title: "🎉 Start & Enjoy!",
+    img: "/happy-cat.gif",
+    description:
+      "Touch-mode starts automatically when fingers are stable. In keys-mode, press Enter to start.",
+  },
+];
+
+const GroupInfo: ModalInfoData[] = [
+  {
+    title: "👥 Group Fingers",
+    img: "/cat-confused.png",
+    description: "Too many fingers? Let fate divide them.",
+  },
+  {
+    title: "🤔 Select Mode",
+    img: "/select-mode.png",
+    description:
+      "Touch = touchscreen, Keys = keyboard. (Only available on larger screens)",
+  },
+  {
+    title: "🔢 Set Number of Groups",
+    img: "/set-group.png",
+    description: "Set how many groups to split into.",
+  },
+  {
+    title: "☝️ Place Fingers",
+    img: "/canvas.png",
+    description:
+      "Place fingers on the canvas or press keys on the keyboard. Max players depend on your device!",
+  },
+  {
+    title: "🎉 Start & Enjoy!",
+    img: "/happy-cat.gif",
+    description:
+      "Touch-mode starts automatically when fingers are stable. In keys-mode, press Enter to start.",
+  },
+];
+
+export {
+  themes,
+  groupColors,
+  groupConfig,
+  secondsToStabilize,
+  RouletteInfo,
+  GroupInfo,
+};
