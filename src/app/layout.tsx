@@ -7,8 +7,71 @@ import Footer from "@components/Footer";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "yubi - finger roulette",
-  description: "by gian.gg",
+  title: {
+    default: "yubbi – Random Picker & Grouper",
+    template: "%s | yubbi",
+  },
+  description:
+    "yubbi is a fun touch-and-keyboard-based app for randomly picking or grouping players. Playful, fair, and fast.",
+  keywords: [
+    "yubbi",
+    "finger roulette",
+    "roulette",
+    "generator",
+    "random",
+    "random picker",
+    "team generator",
+    "touch game",
+    "keyboard game",
+    "nextjs app",
+  ],
+  authors: [{ name: "Gian Epanto", url: "https://github.com/gian-gg" }],
+  creator: "gian.gg",
+  publisher: "gian.gg",
+  robots: "index, follow",
+  alternates: {
+    canonical: "https://yubbi.vercel.app",
+  },
+  openGraph: {
+    title: "yubbi – Random Picker & Grouper",
+    description:
+      "yubbi is a fun touch-and-keyboard-based app for randomly picking or grouping players. Playful, fair, and fast.",
+    url: "https://yubbi.vercel.app",
+    siteName: "yubbi",
+    images: [
+      {
+        url: "https://yubbi.vercel.app/brand.png",
+        width: 1200,
+        height: 630,
+        alt: "yubbi App preview image",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "yubbi – Random Picker & Grouper",
+    description:
+      "yubbi is a fun touch-and-keyboard-based app for randomly picking or grouping players. Playful, fair, and fast.",
+    site: "@gian_ggg",
+    creator: "@gian_ggg",
+    images: ["https://yubbi.vercel.app/brand.png"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-32x32.png",
+    apple: "/apple-touch-icon.png",
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/safari-pinned-tab.svg",
+        color: "#5bbad5",
+      },
+    ],
+  },
+  themeColor: "#d1ace0", // mauve
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
