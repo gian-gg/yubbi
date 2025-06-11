@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     siteName: "yubbi",
     images: [
       {
-        url: "https://yubbi.vercel.app/brand.png",
+        url: "https://yubbi.vercel.app/preview.png",
         width: 1200,
         height: 630,
         alt: "yubbi App preview image",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
       "yubbi is a fun touch-and-keyboard-based app for randomly picking or grouping players. Playful, fair, and fast.",
     site: "@gian_ggg",
     creator: "@gian_ggg",
-    images: ["https://yubbi.vercel.app/brand.png"],
+    images: ["https://yubbi.vercel.app/preview.png"],
   },
   icons: {
     icon: "/favicon.ico",

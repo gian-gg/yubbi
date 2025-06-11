@@ -151,13 +151,20 @@ const BottomBar = ({ fingers, children, modalInfo }: BottomBarProps) => {
               />
             </div>
             <div className="w-full h-full flex flex-col items-center justify-center">
-              <Image
-                src={modalInfo[selectedOption].img}
-                alt={modalInfo[selectedOption].title}
-                width={300}
-                height={300}
-                className="rounded-lg mb-2"
-              />
+              <div className="relative translate-x-0 w-fit h-fit">
+                <Image
+                  src={modalInfo[selectedOption].img}
+                  alt={modalInfo[selectedOption].title}
+                  width={300}
+                  height={300}
+                  className="rounded-lg mb-2 relative z-10"
+                  unoptimized
+                />
+
+                <div className="absolute inset-0 flex items-center justify-center -z-10">
+                  <div className="w-20 h-20  md:w-32 md:h-32 bg-primary/75 rounded-full blur-[100px]" />
+                </div>
+              </div>
               <h1 className="text-lg md:text-xl lg:text-2xl font-bold mt-3 mb-1">
                 {modalInfo[selectedOption].title}
               </h1>
