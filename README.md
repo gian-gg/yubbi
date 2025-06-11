@@ -4,7 +4,8 @@
 
 A fun, interactive decision-making app for groups. Perfect for parties, team building, or any situation where you need a fair, random selection.
 
-<!-- demo stuff here -->
+![roulette-desktop](/public/readme/roulette-desktop.gif)
+![group-desktop](/public/readme/group-desktop.gif)
 
 ---
 
