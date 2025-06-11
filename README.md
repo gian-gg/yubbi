@@ -1,11 +1,10 @@
-# ⚠️ WORK IN PROGRESS ⚠️
-
 # ✌️ Yubi   
 
 A fun, interactive decision-making app for groups. Perfect for parties, team building, or any situation where you need a fair, random selection.
 
-![roulette-desktop](/public/readme/roulette-desktop.gif)
-![group-desktop](/public/readme/group-desktop.gif)
+## Desktop Demo
+| ![roulette-desktop](/public/readme/roulette-desktop.gif) | ![group-desktop](/public/readme/group-desktop.gif) |
+| - | - |
 
 ---
 
