@@ -1,4 +1,4 @@
-# ✌️ Yubi   
+# ✌️ Yubbi   
 
 A fun, interactive decision-making app for groups. Perfect for parties, team building, or any situation where you need a fair, random selection.
 
